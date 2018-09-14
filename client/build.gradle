@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'com.fwcd.whiteboard.WhiteboardMain'
+
+repositories {
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.fwcd:Fructose:a87bf01e7efd87ddae8cf684afe2fdd1676454b6'
+    implementation 'com.github.fwcd:Sketch:b1f750c49e3015753acca13196f509ff9d20172d'
+    implementation fileTree(dir: 'lib', include:['*.jar'])
+    testImplementation 'junit:junit:4.12'
+}

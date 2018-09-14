@@ -15,19 +15,19 @@ import javax.swing.border.EmptyBorder;
 import com.fwcd.fructose.swing.DrawGraphicsButton;
 import com.fwcd.fructose.swing.HelpView;
 import com.fwcd.fructose.swing.RangedSlider;
-import com.fwcd.fructose.swing.Rendereable;
+import com.fwcd.fructose.swing.Renderable;
 import com.fwcd.fructose.swing.ResourceImage;
 import com.fwcd.fructose.swing.SelectedButtonPanel;
-import com.fwcd.fructose.swing.Viewable;
-import com.fwcd.sketch.tools.EnumSketchTool;
-import com.fwcd.sketch.tools.SketchTool;
+import com.fwcd.fructose.swing.View;
+import com.fwcd.sketch.view.tools.CommonSketchTool;
+import com.fwcd.sketch.view.tools.SketchTool;
 import com.fwcd.whiteboard.core.WhiteboardApp;
 
-public class SidePanel implements Viewable {
-	private static final Icon HELP_ICON = new ResourceImage("/resources/helpIcon.png").getAsIcon();
+public class SidePanel implements View {
+	private static final Icon HELP_ICON = new ResourceImage("/helpIcon.png").getAsIcon();
 	private final Color highlightColor = Color.GRAY;
 	
-	private final JToolBar view;
+	private final JToolBar component;
 	private final Color[] colors = {
 			Color.BLACK,
 			Color.RED,
@@ -48,12 +48,12 @@ public class SidePanel implements Viewable {
 	);
 	
 	public SidePanel(WhiteboardApp parent, boolean horizontal) {
-		view = new JToolBar(horizontal ? JToolBar.HORIZONTAL : JToolBar.VERTICAL);
-		view.setOpaque(true);
-		view.setFloatable(false);
-		view.setLayout(new BorderLayout());
-		view.setPreferredSize(horizontal ? new Dimension(200, 40) : new Dimension(40, 200));
-		view.setBackground(Color.DARK_GRAY);
+		component = new JToolBar(horizontal ? JToolBar.HORIZONTAL : JToolBar.VERTICAL);
+		component.setOpaque(true);
+		component.setFloatable(false);
+		component.setLayout(new BorderLayout());
+		component.setPreferredSize(horizontal ? new Dimension(200, 40) : new Dimension(40, 200));
+		component.setBackground(Color.DARK_GRAY);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
@@ -63,25 +63,25 @@ public class SidePanel implements Viewable {
 		
 		SelectedButtonPanel toolsPanel = getButtonPanel(horizontal);
 		
-		for (EnumSketchTool enumTool : EnumSketchTool.values()) {
+		for (CommonSketchTool enumTool : CommonSketchTool.values()) {
 			SketchTool tool = enumTool.get();
 			JButton button = new JButton();
 			button.setIcon(tool.getIcon());
 			toolsPanel.add(button, () -> parent.setSelectedTool(tool));
 			
-			if (enumTool == EnumSketchTool.BRUSH) {
+			if (enumTool == CommonSketchTool.BRUSH) {
 				toolsPanel.select(button);
 			}
 		}
 		
-		buttonPanel.add(toolsPanel.getView());
+		buttonPanel.add(toolsPanel.getComponent());
 		
 		// Add color buttons
 		
 		SelectedButtonPanel colorsPanel = getButtonPanel(horizontal);
 		
 		for (Color color : colors) {
-			Rendereable circle = (g2d, canvasSize) -> {
+			Renderable circle = (g2d, canvasSize) -> {
 				g2d.setColor(color);
 				
 				int w = (int) canvasSize.getWidth();
@@ -95,14 +95,14 @@ public class SidePanel implements Viewable {
 			colorsPanel.add(button, () -> parent.getBrushProperties().setColor(color));
 		}
 
-		buttonPanel.add(colorsPanel.getView());
+		buttonPanel.add(colorsPanel.getComponent());
 		
 		// Add background buttons
 		
 		SelectedButtonPanel bgColorsPanel = getButtonPanel(horizontal);
 		
 		for (Color color : bgColors) {
-			Rendereable circle = (g2d, canvasSize) -> {
+			Renderable circle = (g2d, canvasSize) -> {
 				g2d.setColor(color);
 				g2d.fillRect(0, 0, (int) canvasSize.getWidth(), (int) canvasSize.getHeight());
 				g2d.setColor(Color.LIGHT_GRAY);
@@ -113,7 +113,7 @@ public class SidePanel implements Viewable {
 			bgColorsPanel.add(button, () -> parent.setBackground(color));
 		}
 
-		buttonPanel.add(bgColorsPanel.getView());
+		buttonPanel.add(bgColorsPanel.getComponent());
 		
 		// Add brush thickness slider
 		
@@ -128,7 +128,7 @@ public class SidePanel implements Viewable {
 		brushThicknessOptions.add(slider);
 		
 		buttonPanel.add(brushThicknessOptions);
-		view.add(buttonPanel, horizontal ? BorderLayout.WEST : BorderLayout.NORTH);
+		component.add(buttonPanel, horizontal ? BorderLayout.WEST : BorderLayout.NORTH);
 		
 		// Add other buttons
 		
@@ -138,14 +138,14 @@ public class SidePanel implements Viewable {
 		otherButtonsPane.setOpaque(false);
 		
 		networkControls = new NetworkControls(horizontal);
-		otherButtonsPane.add(networkControls.getView());
+		otherButtonsPane.add(networkControls.getComponent());
 		
 		JButton helpButton = new JButton();
 		helpButton.setIcon(HELP_ICON);
 		helpButton.addActionListener((l) -> showHelp());
 		otherButtonsPane.add(helpButton);
 		
-		view.add(otherButtonsPane, horizontal ? BorderLayout.EAST : BorderLayout.SOUTH);
+		component.add(otherButtonsPane, horizontal ? BorderLayout.EAST : BorderLayout.SOUTH);
 	}
 
 	private SelectedButtonPanel getButtonPanel(boolean horizontal) {
@@ -167,11 +167,11 @@ public class SidePanel implements Viewable {
 	}
 	
 	@Override
-	public JToolBar getView() {
-		return view;
+	public JToolBar getComponent() {
+		return component;
 	}
 
 	public void setBackground(Color color) {
-		view.setBackground(color);
+		component.setBackground(color);
 	}
 }

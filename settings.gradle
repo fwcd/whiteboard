@@ -1,0 +1,3 @@
+rootProject.name = 'Whiteboard'
+
+include 'client'
