@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.ui;
+package com.fwcd.whiteboard.view.ui;
 
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -11,11 +11,10 @@ import javax.swing.border.EmptyBorder;
 
 import com.fwcd.fructose.swing.ResourceImage;
 import com.fwcd.fructose.swing.View;
-import com.fwcd.whiteboard.core.WhiteboardView;
 
 public class NetworkControls implements View {
 	private static final Icon ICON = new ResourceImage("/networkIcon.png").getAsIcon();
-	private JPanel view;
+	private JPanel component;
 
 	private ConnectionDialog dialog = new ConnectionDialog();
 
@@ -24,16 +23,16 @@ public class NetworkControls implements View {
 	private JButton connectButton;
 
 	public NetworkControls(boolean horizontal) {
-		view = new JPanel();
-		view.setLayout(new BoxLayout(view, horizontal ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS));
-		view.setBorder(new EmptyBorder(0, 0, 0, 0));
-		view.setOpaque(false);
+		component = new JPanel();
+		component.setLayout(new BoxLayout(component, horizontal ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS));
+		component.setBorder(new EmptyBorder(0, 0, 0, 0));
+		component.setOpaque(false);
 
 		indicator = new BoolIndicatorLight();
-		view.add(indicator.getComponent());
+		component.add(indicator.getComponent());
 
 		statusLabel = new JLabel();
-		view.add(statusLabel);
+		component.add(statusLabel);
 
 		connectButton = new JButton(ICON);
 		connectButton.setEnabled(false); // TODO: Implement networking properly and enable this button
@@ -47,11 +46,11 @@ public class NetworkControls implements View {
 				JOptionPane.showMessageDialog(null, "Invalid IP address!");
 			}
 		});
-		view.add(connectButton);
+		component.add(connectButton);
 	}
 
 	@Override
 	public JComponent getComponent() {
-		return view;
+		return component;
 	}
 }

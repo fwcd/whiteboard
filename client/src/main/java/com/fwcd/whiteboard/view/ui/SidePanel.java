@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.ui;
+package com.fwcd.whiteboard.view.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,7 +21,7 @@ import com.fwcd.fructose.swing.SelectedButtonPanel;
 import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.view.tools.CommonSketchTool;
 import com.fwcd.sketch.view.tools.SketchTool;
-import com.fwcd.whiteboard.core.WhiteboardView;
+import com.fwcd.whiteboard.view.WhiteboardView;
 
 public class SidePanel implements View {
 	private static final Icon HELP_ICON = new ResourceImage("/helpIcon.png").getAsIcon();

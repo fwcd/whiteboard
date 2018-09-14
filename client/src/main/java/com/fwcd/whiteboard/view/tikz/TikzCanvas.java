@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.tikz;
+package com.fwcd.whiteboard.view.tikz;
 
 import java.io.ByteArrayOutputStream;
 

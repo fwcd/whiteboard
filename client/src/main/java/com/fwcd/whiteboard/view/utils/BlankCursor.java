@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.utils;
+package com.fwcd.whiteboard.view.utils;
 
 import java.awt.Cursor;
 import java.awt.Image;

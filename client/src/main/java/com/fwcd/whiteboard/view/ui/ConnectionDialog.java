@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.ui;
+package com.fwcd.whiteboard.view.ui;
 
 import java.awt.GridLayout;
 
@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ConnectionDialog {
-	private JPanel view;
+	private JPanel component;
 	
 	private JTextField hostField;
 	private JTextField portField;
@@ -17,20 +17,20 @@ public class ConnectionDialog {
 	private int port = 0;
 	
 	public ConnectionDialog() {
-		view = new JPanel();
-		view.setLayout(new GridLayout(2, 2));
+		component = new JPanel();
+		component.setLayout(new GridLayout(2, 2));
 		
-		view.add(new JLabel("Host:"));
+		component.add(new JLabel("Host:"));
 		hostField = new JTextField();
-		view.add(hostField);
+		component.add(hostField);
 		
-		view.add(new JLabel("Port:"));
+		component.add(new JLabel("Port:"));
 		portField = new JTextField();
-		view.add(portField);
+		component.add(portField);
 	}
 	
 	public boolean show() {
-		int selectedOption = JOptionPane.showConfirmDialog(null, view, "Join Whiteboard", JOptionPane.OK_CANCEL_OPTION);
+		int selectedOption = JOptionPane.showConfirmDialog(null, component, "Join Whiteboard", JOptionPane.OK_CANCEL_OPTION);
 		
 		if (selectedOption == JOptionPane.OK_OPTION) {
 			host = hostField.getText();

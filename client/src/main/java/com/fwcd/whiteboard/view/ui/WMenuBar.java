@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.ui;
+package com.fwcd.whiteboard.view.ui;
 
 import java.awt.Color;
 import java.io.File;
@@ -21,12 +21,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.fwcd.fructose.Observable;
 import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.model.SketchBoardModel;
-import com.fwcd.whiteboard.core.WhiteboardView;
+import com.fwcd.whiteboard.view.WhiteboardView;
 
 public class WMenuBar implements View {
 	private static final Color BG_COLOR = Color.DARK_GRAY;
 	private static final Color FG_COLOR = Color.WHITE;
-	private final JMenuBar view;
+	private final JMenuBar component;
 	private final JFileChooser fileChooser = new JFileChooser();
 
 	public WMenuBar(WhiteboardView app) {
@@ -34,29 +34,28 @@ public class WMenuBar implements View {
 
 		SketchBoardModel drawBoardModel = app.getDrawBoard().getModel();
 		
-		
-		view = new JMenuBar();
-		view.setBorder(new EmptyBorder(0, 0, 0, 0));
+		component = new JMenuBar();
+		component.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
 		JMenu fileMenu = newMenu("File");
 		fileMenu.add(newItem("New", () -> drawBoardModel.getItems().clear()));
 		fileMenu.add(new JSeparator());
 		fileMenu.add(newItem("Open...", () -> openDrawBoard(drawBoardModel)));
 		fileMenu.add(newItem("Save...", () -> saveDrawBoard(drawBoardModel)));
-		view.add(fileMenu);
+		component.add(fileMenu);
 		
 		JMenu editMenu = newMenu("Edit");
 		editMenu.add(newItem("Clear", () -> drawBoardModel.getItems().clear())); // Redundant, but whatever...
 		editMenu.add(new JSeparator());
 		editMenu.add(newToggleItem("Toggle Snap To Grid", drawBoardModel.getSnapToGrid()));
 		editMenu.add(newToggleItem("Toggle Grid", drawBoardModel.getShowGrid()));
-		view.add(editMenu);
+		component.add(editMenu);
 		
 		JMenu viewMenu = newMenu("View");
 		viewMenu.add(newToggleItem("Toggle Script Panel", app.getScriptPanel().getVisibility()));
-		view.add(viewMenu);
+		component.add(viewMenu);
 		
-		view.setBackground(BG_COLOR);
+		component.setBackground(BG_COLOR);
 	}
 	
 	private JMenuItem newItem(String title, Runnable onClick) {
@@ -87,11 +86,11 @@ public class WMenuBar implements View {
 	
 	@Override
 	public JComponent getComponent() {
-		return view;
+		return component;
 	}
 	
 	public void openDrawBoard(SketchBoardModel drawBoard) {
-		if (fileChooser.showOpenDialog(view) == JFileChooser.APPROVE_OPTION) {
+		if (fileChooser.showOpenDialog(component) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			
 			if (file != null) {
@@ -105,7 +104,7 @@ public class WMenuBar implements View {
 	}
 	
 	public void saveDrawBoard(SketchBoardModel drawBoard) {
-		if (fileChooser.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
+		if (fileChooser.showSaveDialog(component) == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 			
 			if (selectedFile != null) {

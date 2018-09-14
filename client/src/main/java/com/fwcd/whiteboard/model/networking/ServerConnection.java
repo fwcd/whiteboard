@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.networking;
+package com.fwcd.whiteboard.model.networking;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import com.fwcd.sketch.model.utils.PolymorphicSerializer;
-import com.fwcd.whiteboard.networking.packets.Packet;
+import com.fwcd.whiteboard.model.networking.packets.Packet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

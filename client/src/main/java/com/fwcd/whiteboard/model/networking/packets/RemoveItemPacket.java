@@ -1,23 +1,23 @@
-package com.fwcd.whiteboard.networking.packets;
+package com.fwcd.whiteboard.model.networking.packets;
 
 import com.fwcd.sketch.model.SketchBoardModel;
 import com.fwcd.sketch.model.items.SketchItem;
 
-public class AddItemPacket implements Packet<SketchBoardModel> {
+public class RemoveItemPacket implements Packet<SketchBoardModel> {
 	private static final long serialVersionUID = 43979394875L;
 	private SketchItem item;
 	
 	/**
 	 * Serialization only.
 	 */
-	public AddItemPacket() {}
+	public RemoveItemPacket() {}
 	
-	public AddItemPacket(SketchItem item) {
+	public RemoveItemPacket(SketchItem item) {
 		this.item = item;
 	}
 	
 	@Override
 	public void apply(SketchBoardModel model) {
-		model.getItems().add(item);
+		model.getItems().remove(item);
 	}
 }

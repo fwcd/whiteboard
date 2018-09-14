@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.ui;
+package com.fwcd.whiteboard.view.ui;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;

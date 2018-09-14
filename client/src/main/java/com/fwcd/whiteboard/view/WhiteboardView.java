@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.core;
+package com.fwcd.whiteboard.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,17 +11,19 @@ import com.fwcd.sketch.model.BrushProperties;
 import com.fwcd.sketch.model.SketchBoardModel;
 import com.fwcd.sketch.view.canvas.SketchBoardView;
 import com.fwcd.sketch.view.tools.SketchTool;
-import com.fwcd.whiteboard.ui.ScriptPanel;
-import com.fwcd.whiteboard.ui.SidePanel;
-import com.fwcd.whiteboard.ui.WMenuBar;
+import com.fwcd.whiteboard.model.WhiteboardModel;
+import com.fwcd.whiteboard.view.ui.ScriptPanel;
+import com.fwcd.whiteboard.view.ui.SidePanel;
+import com.fwcd.whiteboard.view.ui.WMenuBar;
 
 public class WhiteboardView implements View {
-	private JComponent component;
+	private final WhiteboardModel model = new WhiteboardModel();
+	private final JComponent component;
 	
-	private SketchBoardView drawBoard;
-	private SidePanel toolBar;
-	private WMenuBar menuBar;
-	private ScriptPanel scriptPanel;
+	private final SketchBoardView drawBoard;
+	private final SidePanel toolBar;
+	private final WMenuBar menuBar;
+	private final ScriptPanel scriptPanel;
 	
 	/**
 	 * Creates a new local Whiteboard instance.
@@ -33,7 +35,7 @@ public class WhiteboardView implements View {
 		component.setBackground(Color.WHITE);
 		component.setLayout(new BorderLayout());
 		
-		drawBoard = new SketchBoardView(new SketchBoardModel());
+		drawBoard = new SketchBoardView(model.getBoard());
 		component.add(drawBoard.getComponent(), BorderLayout.CENTER);
 		
 		toolBar = new SidePanel(this, /* horizontal */ false);

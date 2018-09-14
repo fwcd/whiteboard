@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.ui;
+package com.fwcd.whiteboard.view.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,19 +12,19 @@ import com.fwcd.fructose.swing.Renderable;
 import com.fwcd.fructose.swing.View;
 
 public class BoolIndicatorLight implements View, Renderable {
-	private JPanel view;
+	private JPanel component;
 
 	private boolean enabled = false;
 	
 	public BoolIndicatorLight() {
-		view = new RenderPanel(this);
-		view.setPreferredSize(new Dimension(24, 24));
-		view.setOpaque(false);
+		component = new RenderPanel(this);
+		component.setPreferredSize(new Dimension(24, 24));
+		component.setOpaque(false);
 	}
 	
 	@Override
 	public JComponent getComponent() {
-		return view;
+		return component;
 	}
 	
 	public void setEnabled(boolean enabled) {

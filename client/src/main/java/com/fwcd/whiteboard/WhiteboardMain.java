@@ -2,7 +2,7 @@ package com.fwcd.whiteboard;
 
 import javax.swing.UIManager;
 
-import com.fwcd.whiteboard.core.WhiteboardFrame;
+import com.fwcd.whiteboard.view.WhiteboardFrame;
 
 public class WhiteboardMain {
 	private static final float VERSION = 14.0F;

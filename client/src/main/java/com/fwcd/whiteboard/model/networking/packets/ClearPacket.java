@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.networking.packets;
+package com.fwcd.whiteboard.model.networking.packets;
 
 import com.fwcd.sketch.model.SketchBoardModel;
 
