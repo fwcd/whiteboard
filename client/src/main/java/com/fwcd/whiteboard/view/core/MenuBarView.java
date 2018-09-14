@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.ui;
+package com.fwcd.whiteboard.view.core;
 
 import java.awt.Color;
 import java.io.File;
@@ -23,13 +23,13 @@ import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.model.SketchBoardModel;
 import com.fwcd.whiteboard.view.WhiteboardView;
 
-public class WMenuBar implements View {
+public class MenuBarView implements View {
 	private static final Color BG_COLOR = Color.DARK_GRAY;
 	private static final Color FG_COLOR = Color.WHITE;
 	private final JMenuBar component;
 	private final JFileChooser fileChooser = new JFileChooser();
 
-	public WMenuBar(WhiteboardView app) {
+	public MenuBarView(WhiteboardView app) {
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Whiteboard File (.wb)", "wb"));
 
 		SketchBoardModel drawBoardModel = app.getDrawBoard().getModel();
@@ -50,10 +50,6 @@ public class WMenuBar implements View {
 		editMenu.add(newToggleItem("Toggle Snap To Grid", drawBoardModel.getSnapToGrid()));
 		editMenu.add(newToggleItem("Toggle Grid", drawBoardModel.getShowGrid()));
 		component.add(editMenu);
-		
-		JMenu viewMenu = newMenu("View");
-		viewMenu.add(newToggleItem("Toggle Script Panel", app.getScriptPanel().getVisibility()));
-		component.add(viewMenu);
 		
 		component.setBackground(BG_COLOR);
 	}

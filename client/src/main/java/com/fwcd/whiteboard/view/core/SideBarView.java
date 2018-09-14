@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.ui;
+package com.fwcd.whiteboard.view.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,11 +19,11 @@ import com.fwcd.fructose.swing.Renderable;
 import com.fwcd.fructose.swing.ResourceImage;
 import com.fwcd.fructose.swing.SelectedButtonPanel;
 import com.fwcd.fructose.swing.View;
+import com.fwcd.sketch.view.canvas.SketchBoardView;
 import com.fwcd.sketch.view.tools.CommonSketchTool;
 import com.fwcd.sketch.view.tools.SketchTool;
-import com.fwcd.whiteboard.view.WhiteboardView;
 
-public class SidePanel implements View {
+public class SideBarView implements View {
 	private static final Icon HELP_ICON = new ResourceImage("/helpIcon.png").getAsIcon();
 	private final Color highlightColor = Color.GRAY;
 	
@@ -47,7 +47,7 @@ public class SidePanel implements View {
 			"Draw using your mouse!"
 	);
 	
-	public SidePanel(WhiteboardView parent, boolean horizontal) {
+	public SideBarView(SketchBoardView drawBoard, boolean horizontal) {
 		component = new JToolBar(horizontal ? JToolBar.HORIZONTAL : JToolBar.VERTICAL);
 		component.setOpaque(true);
 		component.setFloatable(false);
@@ -67,7 +67,7 @@ public class SidePanel implements View {
 			SketchTool tool = enumTool.get();
 			JButton button = new JButton();
 			button.setIcon(tool.getIcon());
-			toolsPanel.add(button, () -> parent.setSelectedTool(tool));
+			toolsPanel.add(button, () -> drawBoard.selectTool(tool));
 			
 			if (enumTool == CommonSketchTool.BRUSH) {
 				toolsPanel.select(button);
@@ -92,7 +92,7 @@ public class SidePanel implements View {
 			};
 			
 			JButton button = new DrawGraphicsButton(new Dimension(24, 24), circle);
-			colorsPanel.add(button, () -> parent.getBrushProperties().setColor(color));
+			colorsPanel.add(button, () -> drawBoard.getBrushProperties().setColor(color));
 		}
 
 		buttonPanel.add(colorsPanel.getComponent());
@@ -110,7 +110,7 @@ public class SidePanel implements View {
 			};
 			
 			JButton button = new DrawGraphicsButton(new Dimension(24, 24), circle);
-			bgColorsPanel.add(button, () -> parent.setBackground(color));
+			bgColorsPanel.add(button, () -> drawBoard.getComponent().setBackground(color));
 		}
 
 		buttonPanel.add(bgColorsPanel.getComponent());
@@ -124,7 +124,7 @@ public class SidePanel implements View {
 		slider.setAlignmentX(0);
 		slider.setOrientation(horizontal ? SwingConstants.HORIZONTAL : SwingConstants.VERTICAL);
 		slider.setPreferredSize(new Dimension(10, 80));
-		parent.getBrushProperties().getThicknessProperty().bind(slider);
+		drawBoard.getBrushProperties().getThicknessProperty().bind(slider);
 		brushThicknessOptions.add(slider);
 		
 		buttonPanel.add(brushThicknessOptions);

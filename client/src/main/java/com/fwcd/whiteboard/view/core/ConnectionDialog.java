@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.ui;
+package com.fwcd.whiteboard.view.core;
 
 import java.awt.GridLayout;
 

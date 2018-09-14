@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.ui;
+package com.fwcd.whiteboard.view.utils;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,16 +8,15 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.fwcd.fructose.swing.RenderPanel;
-import com.fwcd.fructose.swing.Renderable;
 import com.fwcd.fructose.swing.View;
 
-public class BoolIndicatorLight implements View, Renderable {
+public class BoolIndicatorLight implements View {
 	private JPanel component;
 
 	private boolean enabled = false;
 	
 	public BoolIndicatorLight() {
-		component = new RenderPanel(this);
+		component = new RenderPanel(this::render);
 		component.setPreferredSize(new Dimension(24, 24));
 		component.setOpaque(false);
 	}
@@ -31,8 +30,7 @@ public class BoolIndicatorLight implements View, Renderable {
 		this.enabled = enabled;
 	}
 
-	@Override
-	public void render(Graphics2D g2d, Dimension canvasSize) {
+	private void render(Graphics2D g2d, Dimension canvasSize) {
 		g2d.setColor(enabled ? Color.GREEN : Color.RED);
 		
 		int width = 15;

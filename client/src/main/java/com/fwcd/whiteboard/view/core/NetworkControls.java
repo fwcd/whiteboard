@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.ui;
+package com.fwcd.whiteboard.view.core;
 
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.fwcd.fructose.swing.ResourceImage;
 import com.fwcd.fructose.swing.View;
+import com.fwcd.whiteboard.view.utils.BoolIndicatorLight;
 
 public class NetworkControls implements View {
 	private static final Icon ICON = new ResourceImage("/networkIcon.png").getAsIcon();

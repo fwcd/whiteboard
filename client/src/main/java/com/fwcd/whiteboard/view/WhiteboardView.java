@@ -8,22 +8,17 @@ import javax.swing.JPanel;
 
 import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.model.BrushProperties;
-import com.fwcd.sketch.model.SketchBoardModel;
 import com.fwcd.sketch.view.canvas.SketchBoardView;
 import com.fwcd.sketch.view.tools.SketchTool;
 import com.fwcd.whiteboard.model.WhiteboardModel;
-import com.fwcd.whiteboard.view.ui.ScriptPanel;
-import com.fwcd.whiteboard.view.ui.SidePanel;
-import com.fwcd.whiteboard.view.ui.WMenuBar;
+import com.fwcd.whiteboard.view.core.SideBarView;
 
 public class WhiteboardView implements View {
 	private final WhiteboardModel model = new WhiteboardModel();
 	private final JComponent component;
 	
 	private final SketchBoardView drawBoard;
-	private final SidePanel toolBar;
-	private final WMenuBar menuBar;
-	private final ScriptPanel scriptPanel;
+	private final SideBarView sideBar;
 	
 	/**
 	 * Creates a new local Whiteboard instance.
@@ -38,24 +33,14 @@ public class WhiteboardView implements View {
 		drawBoard = new SketchBoardView(model.getBoard());
 		component.add(drawBoard.getComponent(), BorderLayout.CENTER);
 		
-		toolBar = new SidePanel(this, /* horizontal */ false);
-		component.add(toolBar.getComponent(), BorderLayout.WEST);
-		
-		scriptPanel = new ScriptPanel(drawBoard);
-		component.add(scriptPanel.getComponent(), BorderLayout.EAST);
-		
-		menuBar = new WMenuBar(this);
-		component.add(menuBar.getComponent(), BorderLayout.NORTH);
+		sideBar = new SideBarView(drawBoard, /* horizontal */ false);
+		component.add(sideBar.getComponent(), BorderLayout.WEST);
 		
 		component.setVisible(true);
 	}
 	
 	public SketchBoardView getDrawBoard() {
 		return drawBoard;
-	}
-	
-	public ScriptPanel getScriptPanel() {
-		return scriptPanel;
 	}
 	
 	public void setSelectedTool(SketchTool tool) {
