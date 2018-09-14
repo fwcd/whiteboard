@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.fwcd.fructose.swing.ResourceImage;
 import com.fwcd.fructose.swing.View;
-import com.fwcd.whiteboard.core.WhiteboardApp;
+import com.fwcd.whiteboard.core.WhiteboardView;
 
 public class NetworkControls implements View {
 	private static final Icon ICON = new ResourceImage("/networkIcon.png").getAsIcon();
@@ -40,7 +40,8 @@ public class NetworkControls implements View {
 		connectButton.addActionListener((l) -> {
 			try {
 				if (dialog.show()) {
-					new WhiteboardApp(dialog.getHost(), dialog.getPort());
+					// TODO
+					System.out.println(dialog.getHost() + ":" + dialog.getPort());
 				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Invalid IP address!");

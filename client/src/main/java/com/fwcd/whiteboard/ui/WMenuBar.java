@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.fwcd.fructose.Observable;
 import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.model.SketchBoardModel;
-import com.fwcd.whiteboard.core.WhiteboardApp;
+import com.fwcd.whiteboard.core.WhiteboardView;
 
 public class WMenuBar implements View {
 	private static final Color BG_COLOR = Color.DARK_GRAY;
@@ -29,7 +29,7 @@ public class WMenuBar implements View {
 	private final JMenuBar view;
 	private final JFileChooser fileChooser = new JFileChooser();
 
-	public WMenuBar(WhiteboardApp app) {
+	public WMenuBar(WhiteboardView app) {
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Whiteboard File (.wb)", "wb"));
 
 		SketchBoardModel drawBoardModel = app.getDrawBoard().getModel();

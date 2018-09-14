@@ -2,7 +2,7 @@ package com.fwcd.whiteboard;
 
 import javax.swing.UIManager;
 
-import com.fwcd.whiteboard.core.WhiteboardApp;
+import com.fwcd.whiteboard.core.WhiteboardFrame;
 
 public class WhiteboardMain {
 	private static final float VERSION = 14.0F;
@@ -16,11 +16,9 @@ public class WhiteboardMain {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		new WhiteboardApp();
-	}
-
-	public static float getVersion() {
-		return VERSION;
+		
+		int width = 900;
+		int height = 600;
+		new WhiteboardFrame("Whiteboard " + VERSION, width, height);
 	}
 }

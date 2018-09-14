@@ -21,7 +21,7 @@ import com.fwcd.fructose.swing.SelectedButtonPanel;
 import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.view.tools.CommonSketchTool;
 import com.fwcd.sketch.view.tools.SketchTool;
-import com.fwcd.whiteboard.core.WhiteboardApp;
+import com.fwcd.whiteboard.core.WhiteboardView;
 
 public class SidePanel implements View {
 	private static final Icon HELP_ICON = new ResourceImage("/helpIcon.png").getAsIcon();
@@ -47,7 +47,7 @@ public class SidePanel implements View {
 			"Draw using your mouse!"
 	);
 	
-	public SidePanel(WhiteboardApp parent, boolean horizontal) {
+	public SidePanel(WhiteboardView parent, boolean horizontal) {
 		component = new JToolBar(horizontal ? JToolBar.HORIZONTAL : JToolBar.VERTICAL);
 		component.setOpaque(true);
 		component.setFloatable(false);
