@@ -6,13 +6,15 @@ import java.util.Map;
 
 import com.fwcd.whiteboard.protocol.Message;
 import com.fwcd.whiteboard.protocol.MessageCategory;
+import com.fwcd.whiteboard.protocol.event.AddItemsEvent;
 import com.fwcd.whiteboard.protocol.event.Event;
 import com.fwcd.whiteboard.protocol.event.EventName;
 import com.fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
-import com.fwcd.whiteboard.protocol.event.UpdateItemsEvent;
+import com.fwcd.whiteboard.protocol.request.AddItemsRequest;
 import com.fwcd.whiteboard.protocol.request.GetAllItemsRequest;
 import com.fwcd.whiteboard.protocol.request.Request;
 import com.fwcd.whiteboard.protocol.request.RequestName;
+import com.fwcd.whiteboard.protocol.request.SetAllItemsRequest;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -25,9 +27,11 @@ public class MessageDeserializer implements JsonDeserializer<Message> {
 	
 	public MessageDeserializer() {
 		eventClasses.put(EventName.UPDATE_ALL_ITEMS, UpdateAllItemsEvent.class);
-		eventClasses.put(EventName.UPDATE_ITEMS, UpdateItemsEvent.class);
+		eventClasses.put(EventName.ADD_ITEMS, AddItemsEvent.class);
 		
 		requestClasses.put(RequestName.GET_ALL_ITEMS, GetAllItemsRequest.class);
+		requestClasses.put(RequestName.SET_ALL_ITEMS, SetAllItemsRequest.class);
+		requestClasses.put(RequestName.ADD_ITEMS, AddItemsRequest.class);
 	}
 	
 	@Override

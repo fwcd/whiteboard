@@ -125,14 +125,13 @@ interface UpdateAllItemsEvent extends Event {
 }
 ```
 
-### UpdateItemsEvent
-An event that replaces items in a certain index range on the client whiteboard. The client should check using the `totalItemCount` whether it notices any discrepancies with its internal whiteboard representation and if so, request all items.
+### AddItemsEvent
+An event that adds an item to the client whiteboard. The client should check using the `totalItemCount` whether it notices any discrepancies with its internal whiteboard representation and if so, request all items.
 
 ```typescript
-interface UpdateItemsEvent extends Event {
-	name: "updateItems";
-	items: WhiteboardItem[];
-	range: Range;
+interface AddItemsEvent extends Event {
+	name: "addItems";
+	added: WhiteboardItem[];
 	totalItemCount: number;
 }
 ```
@@ -151,4 +150,22 @@ Requests an `UpdateAllItemsEvent` from the server.
 
 ```typescript
 interface GetAllItemsRequest extends Request {}
+```
+
+### SetAllItemsRequest
+Requests the server to clear and replace all items on the actual whiteboard.
+
+```typescript
+interface SetAllItemsRequest extends Request {
+	items: WhiteboardItem[];
+}
+```
+
+### AddItemsRequest
+Requests the server to add items to the actual whiteboard.
+
+```typescript
+interface AddItemsRequest extends Request {
+	addedItems: WhiteboardItem[];
+}
 ```
