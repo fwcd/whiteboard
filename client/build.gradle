@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-mainClassName = 'com.fwcd.whiteboard.WhiteboardClientMain'
+mainClassName = 'com.fwcd.whiteboard.client.WhiteboardClientMain'
 
 repositories {
     jcenter()

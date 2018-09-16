@@ -131,7 +131,7 @@ An event that adds an item to the client whiteboard. The client should check usi
 ```typescript
 interface AddItemsEvent extends Event {
 	name: "addItems";
-	added: WhiteboardItem[];
+	addedItems: WhiteboardItem[];
 	totalItemCount: number;
 }
 ```

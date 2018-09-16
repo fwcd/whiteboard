@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.core;
+package com.fwcd.whiteboard.client.view.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view;
+package com.fwcd.whiteboard.client.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,8 +10,8 @@ import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.model.BrushProperties;
 import com.fwcd.sketch.view.canvas.SketchBoardView;
 import com.fwcd.sketch.view.tools.SketchTool;
-import com.fwcd.whiteboard.view.core.SideBarView;
-import com.fwcd.whiteboard.viewmodel.WhiteboardModel;
+import com.fwcd.whiteboard.client.model.WhiteboardModel;
+import com.fwcd.whiteboard.client.view.core.SideBarView;
 
 public class WhiteboardView implements View {
 	private final WhiteboardModel model = new WhiteboardModel();

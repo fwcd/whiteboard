@@ -25,12 +25,12 @@ public class RemoteWhiteboard implements WhiteboardServer, WhiteboardClient {
 	}
 	
 	@Override
-	public void request(Request request) {
+	public void otherRequest(Request request) {
 		gson.toJson(request, writer);
 	}
 	
 	@Override
-	public void event(Event event) {
+	public void otherEvent(Event event) {
 		gson.toJson(event, writer);
 	}
 }

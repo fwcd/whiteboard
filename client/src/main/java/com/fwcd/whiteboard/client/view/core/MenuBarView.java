@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.core;
+package com.fwcd.whiteboard.client.view.core;
 
 import java.awt.Color;
 import java.io.File;
@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.fwcd.fructose.Observable;
 import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.model.SketchBoardModel;
-import com.fwcd.whiteboard.view.WhiteboardView;
+import com.fwcd.whiteboard.client.view.WhiteboardView;
 
 public class MenuBarView implements View {
 	private static final Color BG_COLOR = Color.DARK_GRAY;

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.util.function.BooleanSupplier;
 
 import com.fwcd.fructose.Either;
 import com.fwcd.whiteboard.endpoint.json.MessageDeserializer;
@@ -45,17 +46,15 @@ public class ProtocolReceiver implements MessageDispatcher {
 	}
 	
 	/**
-	 * Runs an infinite loop dispatching JSON messages
-	 * from the input stream.
+	 * Runs while the condition evaluates to true,
+	 * dispatching JSON messages from the input stream.
 	 */
-	public void run() {
+	public void runWhile(BooleanSupplier condition) throws IOException {
 		try (Reader reader = new InputStreamReader(jsonInput)) {
-			while (true) {
+			while (condition.getAsBoolean()) {
 				Message message = gson.fromJson(reader, Message.class);
 				message.dispatch(this);
 			}
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
 		}
 	}
 	

@@ -1,8 +1,8 @@
-package com.fwcd.whiteboard;
+package com.fwcd.whiteboard.client;
 
 import javax.swing.UIManager;
 
-import com.fwcd.whiteboard.view.WhiteboardFrame;
+import com.fwcd.whiteboard.client.view.WhiteboardFrame;
 
 public class WhiteboardClientMain {
 	private static final float VERSION = 14.0F;

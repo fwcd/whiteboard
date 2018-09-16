@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.viewmodel;
+package com.fwcd.whiteboard.client.model;
 
 import com.fwcd.sketch.model.SketchBoardModel;
 

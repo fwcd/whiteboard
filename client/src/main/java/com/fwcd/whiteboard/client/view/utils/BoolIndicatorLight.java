@@ -1,4 +1,4 @@
-package com.fwcd.whiteboard.view.utils;
+package com.fwcd.whiteboard.client.view.utils;
 
 import java.awt.Color;
 import java.awt.Dimension;

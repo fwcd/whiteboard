@@ -5,9 +5,9 @@ import com.fwcd.whiteboard.protocol.event.Event;
 import com.fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 
 public interface WhiteboardClient {
-	default void addItems(AddItemsEvent event) { event(event); }
+	default void addItems(AddItemsEvent event) { otherEvent(event); }
 	
-	default void updateAllItems(UpdateAllItemsEvent event) { event(event); }
+	default void updateAllItems(UpdateAllItemsEvent event) { otherEvent(event); }
 	
-	default void event(Event event) {}
+	default void otherEvent(Event event) {}
 }

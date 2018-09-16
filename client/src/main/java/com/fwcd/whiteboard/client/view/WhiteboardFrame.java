@@ -1,10 +1,10 @@
-package com.fwcd.whiteboard.view;
+package com.fwcd.whiteboard.client.view;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import com.fwcd.whiteboard.view.core.MenuBarView;
+import com.fwcd.whiteboard.client.view.core.MenuBarView;
 
 public class WhiteboardFrame {
 	public WhiteboardFrame(String title, int width, int height) {
