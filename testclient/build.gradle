@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'com.fwcd.whiteboard.testclient.WhiteboardTestClientMain'
+
+repositories {
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation project(':shared')
+    implementation 'com.github.fwcd:Fructose:a87bf01e7efd87ddae8cf684afe2fdd1676454b6'
+    testImplementation 'junit:junit:4.12'
+}
+
+run {
+    standardInput = System.in
+}

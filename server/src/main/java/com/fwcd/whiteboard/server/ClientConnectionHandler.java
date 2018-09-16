@@ -30,8 +30,8 @@ public class ClientConnectionHandler implements Runnable {
 			Socket socket = connection.getClientSocket();
 			ProtocolReceiver receiver = ProtocolReceiver.ofServer(socket.getInputStream(), server);
 			receiver.runWhile(() -> !socket.isClosed());
-		} catch (IOException e) {
-			System.out.println("IOException in ClientConnectionHandler #" + hashCode() + ": " + e.getMessage()); // TODO: Proper logging
+		} catch (Exception e) {
+			System.out.println(e.getClass().getSimpleName() + " in ClientConnectionHandler #" + hashCode() + ": " + e.getMessage()); // TODO: Proper logging
 		}
 		
 		activeConnections.remove(connection);
