@@ -1,5 +1,5 @@
 # Protocol
-This document describes the JSON protocol used to communicate between Whiteboard Server and Client using TypeScript declarations.
+This document describes the JSON protocol used to communicate between Whiteboard Server and Client using TypeScript declarations. The protocol requires both client and server to maintain state.
 
 ## Structures
 Data structures used to describe domain objects.
@@ -144,4 +144,11 @@ A request is a message sent from a client to the server.
 interface Request extends Message {
 	category: "request";
 }
+```
+
+### GetAllItemsRequest
+Requests an `UpdateAllItemsEvent` from the server.
+
+```typescript
+interface GetAllItemsRequest extends Request {}
 ```

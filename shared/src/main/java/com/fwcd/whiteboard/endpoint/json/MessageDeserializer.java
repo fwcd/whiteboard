@@ -10,7 +10,9 @@ import com.fwcd.whiteboard.protocol.event.Event;
 import com.fwcd.whiteboard.protocol.event.EventName;
 import com.fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import com.fwcd.whiteboard.protocol.event.UpdateItemsEvent;
+import com.fwcd.whiteboard.protocol.request.GetAllItemsRequest;
 import com.fwcd.whiteboard.protocol.request.Request;
+import com.fwcd.whiteboard.protocol.request.RequestName;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -24,6 +26,8 @@ public class MessageDeserializer implements JsonDeserializer<Message> {
 	public MessageDeserializer() {
 		eventClasses.put(EventName.UPDATE_ALL_ITEMS, UpdateAllItemsEvent.class);
 		eventClasses.put(EventName.UPDATE_ITEMS, UpdateItemsEvent.class);
+		
+		requestClasses.put(RequestName.GET_ALL_ITEMS, GetAllItemsRequest.class);
 	}
 	
 	@Override
