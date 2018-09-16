@@ -26,6 +26,16 @@ interface Vec2 {
 }
 ```
 
+### Range
+An integer range that includes the start and excludes the end index.
+
+```typescript
+interface Range {
+	start: number;
+	end: number;
+}
+```
+
 ### WhiteboardItem
 A drawable item.
 
@@ -102,6 +112,28 @@ An event is a message sent from the server to a client.
 ```typescript
 interface Event extends Message {
 	category: "event";
+}
+```
+
+### UpdateAllItemsEvent
+An event that clears and replaces all items on the client whiteboard. This ensures that the client representation matches the actual whiteboard.
+
+```typescript
+interface UpdateAllItemsEvent extends Event {
+	name: "updateAllItems";
+	items: WhiteboardItem[];
+}
+```
+
+### UpdateItemsEvent
+An event that replaces items in a certain index range on the client whiteboard. The client should check using the `totalItemCount` whether it notices any discrepancies with its internal whiteboard representation and if so, request all items.
+
+```typescript
+interface UpdateItemsEvent extends Event {
+	name: "updateItems";
+	items: WhiteboardItem[];
+	range: Range;
+	totalItemCount: number;
 }
 ```
 

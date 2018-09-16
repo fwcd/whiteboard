@@ -7,6 +7,9 @@ import java.util.Map;
 import com.fwcd.whiteboard.protocol.Message;
 import com.fwcd.whiteboard.protocol.MessageCategory;
 import com.fwcd.whiteboard.protocol.event.Event;
+import com.fwcd.whiteboard.protocol.event.EventName;
+import com.fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
+import com.fwcd.whiteboard.protocol.event.UpdateItemsEvent;
 import com.fwcd.whiteboard.protocol.request.Request;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -19,7 +22,8 @@ public class MessageDeserializer implements JsonDeserializer<Message> {
 	private final Map<String, Class<? extends Request>> requestClasses = new HashMap<>();
 	
 	public MessageDeserializer() {
-		
+		eventClasses.put(EventName.UPDATE_ALL_ITEMS, UpdateAllItemsEvent.class);
+		eventClasses.put(EventName.UPDATE_ITEMS, UpdateItemsEvent.class);
 	}
 	
 	@Override
