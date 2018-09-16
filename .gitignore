@@ -3,6 +3,7 @@
 .idea
 .project
 .gradle
+.vscode
 target
 build
 bin

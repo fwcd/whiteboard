@@ -10,13 +10,13 @@ import com.fwcd.fructose.swing.View;
 import com.fwcd.sketch.model.BrushProperties;
 import com.fwcd.sketch.view.canvas.SketchBoardView;
 import com.fwcd.sketch.view.tools.SketchTool;
-import com.fwcd.whiteboard.model.WhiteboardModel;
 import com.fwcd.whiteboard.view.core.SideBarView;
+import com.fwcd.whiteboard.viewmodel.WhiteboardModel;
 
 public class WhiteboardView implements View {
 	private final WhiteboardModel model = new WhiteboardModel();
 	private final JComponent component;
-	
+	 
 	private final SketchBoardView drawBoard;
 	private final SideBarView sideBar;
 	

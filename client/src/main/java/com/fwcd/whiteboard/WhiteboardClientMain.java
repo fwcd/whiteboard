@@ -4,7 +4,7 @@ import javax.swing.UIManager;
 
 import com.fwcd.whiteboard.view.WhiteboardFrame;
 
-public class WhiteboardMain {
+public class WhiteboardClientMain {
 	private static final float VERSION = 14.0F;
 	
 	public static void main(String[] args) {
