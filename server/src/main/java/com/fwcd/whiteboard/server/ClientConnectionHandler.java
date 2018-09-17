@@ -1,6 +1,5 @@
 package com.fwcd.whiteboard.server;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.Set;
 
@@ -26,8 +25,9 @@ public class ClientConnectionHandler implements Runnable {
 	
 	@Override
 	public void run() {
-		try {
-			Socket socket = connection.getClientSocket();
+		try (Socket socket = connection.getClientSocket()) {
+			System.out.println("Connected to client " + socket.getLocalAddress() + ":" + socket.getLocalPort()); // TODO: Proper logging
+			
 			ProtocolReceiver receiver = ProtocolReceiver.ofServer(socket.getInputStream(), server);
 			receiver.runWhile(() -> !socket.isClosed());
 		} catch (Exception e) {

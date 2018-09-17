@@ -1,10 +1,9 @@
 package com.fwcd.whiteboard.endpoint;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UncheckedIOException;
 import java.util.function.BooleanSupplier;
 
 import com.fwcd.fructose.Either;
@@ -19,6 +18,7 @@ import com.fwcd.whiteboard.protocol.request.Request;
 import com.fwcd.whiteboard.protocol.struct.WhiteboardItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 
 /**
  * Reads messages from a JSON input stream and
@@ -50,8 +50,9 @@ public class ProtocolReceiver implements MessageDispatcher {
 	 * dispatching JSON messages from the input stream.
 	 */
 	public void runWhile(BooleanSupplier condition) throws IOException {
-		try (Reader reader = new InputStreamReader(jsonInput)) {
+		try (JsonReader reader = gson.newJsonReader(new InputStreamReader(jsonInput))) {
 			while (condition.getAsBoolean()) {
+				// Parse the next JSON object from the stream
 				Message message = gson.fromJson(reader, Message.class);
 				message.dispatch(this);
 			}

@@ -1,6 +1,86 @@
 # Protocol
 This document describes the JSON protocol used to communicate between Whiteboard Server and Client using TypeScript declarations. The protocol requires both client and server to maintain state.
 
+## Messages
+
+### Message
+Base interface for every method.
+
+```typescript
+interface Message {
+	category: "event" | "request";
+	name: string;
+}
+```
+
+### Event
+An event is a message sent from the server to a client.
+
+```typescript
+interface Event extends Message {
+	category: "event";
+}
+```
+
+### UpdateAllItemsEvent
+An event that clears and replaces all items on the client whiteboard. This ensures that the client representation matches the actual whiteboard.
+
+```typescript
+interface UpdateAllItemsEvent extends Event {
+	name: "updateAllItems";
+	items: WhiteboardItem[];
+}
+```
+
+### AddItemsEvent
+An event that adds an item to the client whiteboard. The client should check using the `totalItemCount` whether it notices any discrepancies with its internal whiteboard representation and if so, request all items.
+
+```typescript
+interface AddItemsEvent extends Event {
+	name: "addItems";
+	addedItems: WhiteboardItem[];
+	totalItemCount: number;
+}
+```
+
+### Request
+A request is a message sent from a client to the server.
+
+```typescript
+interface Request extends Message {
+	category: "request";
+}
+```
+
+### GetAllItemsRequest
+Requests an `UpdateAllItemsEvent` from the server.
+
+```typescript
+interface GetAllItemsRequest extends Request {
+	name: "getAllItems";
+}
+```
+
+### SetAllItemsRequest
+Requests the server to clear and replace all items on the actual whiteboard.
+
+```typescript
+interface SetAllItemsRequest extends Request {
+	name: "setAllItems";
+	items: WhiteboardItem[];
+}
+```
+
+### AddItemsRequest
+Requests the server to add items to the actual whiteboard.
+
+```typescript
+interface AddItemsRequest extends Request {
+	name: "addItems";
+	addedItems: WhiteboardItem[];
+}
+```
+
 ## Structures
 Data structures used to describe domain objects.
 
@@ -91,81 +171,5 @@ interface TextItem extends WhiteboardItem {
 	pos: Vec2;
 	color: Color;
 	size: number;
-}
-```
-
-## Messages
-
-### Message
-Base interface for every method.
-
-```typescript
-interface Message {
-	category: "event" | "request";
-	name: string;
-}
-```
-
-### Event
-An event is a message sent from the server to a client.
-
-```typescript
-interface Event extends Message {
-	category: "event";
-}
-```
-
-### UpdateAllItemsEvent
-An event that clears and replaces all items on the client whiteboard. This ensures that the client representation matches the actual whiteboard.
-
-```typescript
-interface UpdateAllItemsEvent extends Event {
-	name: "updateAllItems";
-	items: WhiteboardItem[];
-}
-```
-
-### AddItemsEvent
-An event that adds an item to the client whiteboard. The client should check using the `totalItemCount` whether it notices any discrepancies with its internal whiteboard representation and if so, request all items.
-
-```typescript
-interface AddItemsEvent extends Event {
-	name: "addItems";
-	addedItems: WhiteboardItem[];
-	totalItemCount: number;
-}
-```
-
-### Request
-A request is a message sent from a client to the server.
-
-```typescript
-interface Request extends Message {
-	category: "request";
-}
-```
-
-### GetAllItemsRequest
-Requests an `UpdateAllItemsEvent` from the server.
-
-```typescript
-interface GetAllItemsRequest extends Request {}
-```
-
-### SetAllItemsRequest
-Requests the server to clear and replace all items on the actual whiteboard.
-
-```typescript
-interface SetAllItemsRequest extends Request {
-	items: WhiteboardItem[];
-}
-```
-
-### AddItemsRequest
-Requests the server to add items to the actual whiteboard.
-
-```typescript
-interface AddItemsRequest extends Request {
-	addedItems: WhiteboardItem[];
 }
 ```
