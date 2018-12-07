@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-mainClassName = 'com.fwcd.whiteboard.testclient.WhiteboardTestClientMain'
+mainClassName = 'fwcd.whiteboard.testclient.WhiteboardTestClientMain'
 
 repositories {
     jcenter()
@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation project(':shared')
-    implementation 'com.github.fwcd:Fructose:a87bf01e7efd87ddae8cf684afe2fdd1676454b6'
+    implementation 'com.github.fwcd:Fructose:b12e36618dc3d386cde73b25efe45723f88eb859'
     testImplementation 'junit:junit:4.12'
 }
 
