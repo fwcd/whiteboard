@@ -1,6 +1,7 @@
 package fwcd.whiteboard.client.view.core;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -45,7 +46,7 @@ public class NetworkControls implements View {
 				if (dialog.show()) {
 					connector.connect(dialog.getHost(), dialog.getPort());
 				}
-			} catch (IOException e) {
+			} catch (IOException | UncheckedIOException e) {
 				JOptionPane.showMessageDialog(null, e.getClass().getSimpleName() + ": " + e.getMessage());
 			}
 		});

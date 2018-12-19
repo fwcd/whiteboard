@@ -1,6 +1,5 @@
 package fwcd.whiteboard.server;
 
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Set;
 
@@ -31,9 +30,12 @@ public class ClientConnectionHandler implements Runnable {
 			
 			ProtocolReceiver receiver = ProtocolReceiver.ofServer(socket.getInputStream(), server);
 			receiver.runWhile(() -> !socket.isClosed());
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			System.out.println(e.getClass().getSimpleName() + " in ClientConnectionHandler #" + hashCode() + ": " + e.getMessage()); // TODO: Proper logging
 			Throwable cause = e.getCause();
+			
 			while (cause != null) {
 				System.out.println("Cause: " + cause.getClass().getSimpleName() + ": " + cause.getMessage());
 				cause = cause.getCause();

@@ -5,14 +5,14 @@ import java.io.UncheckedIOException;
 import java.net.Socket;
 
 import fwcd.whiteboard.endpoint.RemoteWhiteboard;
-import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
+import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 
 /**
  * An active connection with a server.
  */
 public class ServerConnection {
 	private final Socket serverSocket;
-	private final WhiteboardClient serverProxy;
+	private final WhiteboardServer serverProxy;
 	
 	public ServerConnection(Socket serverSocket) {
 		try {
@@ -25,5 +25,5 @@ public class ServerConnection {
 	
 	public Socket getServerSocket() { return serverSocket; }
 	
-	public WhiteboardClient getServerProxy() { return serverProxy; }
+	public WhiteboardServer getServerProxy() { return serverProxy; }
 }

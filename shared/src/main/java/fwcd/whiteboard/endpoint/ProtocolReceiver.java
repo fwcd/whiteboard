@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 import fwcd.fructose.Either;
+import fwcd.fructose.Option;
 import fwcd.whiteboard.endpoint.json.MessageDeserializer;
 import fwcd.whiteboard.endpoint.json.WhiteboardItemDeserializer;
 import fwcd.whiteboard.protocol.Message;
@@ -29,6 +30,7 @@ public class ProtocolReceiver implements MessageDispatcher {
 			.registerTypeAdapter(WhiteboardItem.class, new WhiteboardItemDeserializer()).create();
 	private final InputStream jsonInput;
 	private final Either<WhiteboardClient, WhiteboardServer> receiver;
+	private Option<Runnable> onClose = Option.empty();
 	
 	private ProtocolReceiver(InputStream jsonInput, Either<WhiteboardClient, WhiteboardServer> receiver) {
 		this.jsonInput = jsonInput;
@@ -44,6 +46,12 @@ public class ProtocolReceiver implements MessageDispatcher {
 	}
 	
 	/**
+	 * Adds a close handler that is invoked once the
+	 * receiver has finished running.
+	 */
+	public void setOnClose(Runnable onClose) { this.onClose = Option.of(onClose); }
+	
+	/**
 	 * Runs while the condition evaluates to true,
 	 * dispatching JSON messages from the input stream.
 	 */
@@ -54,6 +62,7 @@ public class ProtocolReceiver implements MessageDispatcher {
 				Message message = gson.fromJson(reader, Message.class);
 				message.dispatch(this);
 			}
+			onClose.ifPresent(Runnable::run);
 		}
 	}
 	
