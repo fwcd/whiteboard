@@ -19,8 +19,8 @@ public class RectItem extends WhiteboardItem {
 	}
 	
 	@Override
-	public void accept(WhiteboardItemVisitor visitor) {
-		visitor.visitRect(this);
+	public <T> T accept(WhiteboardItemVisitor<T> visitor) {
+		return visitor.visitRect(this);
 	}
 	
 	public Vec2 getTopLeft() { return topLeft; }

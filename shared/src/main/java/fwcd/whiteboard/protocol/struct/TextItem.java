@@ -19,8 +19,8 @@ public class TextItem extends WhiteboardItem {
 	}
 	
 	@Override
-	public void accept(WhiteboardItemVisitor visitor) {
-		visitor.visitText(this);
+	public <T> T accept(WhiteboardItemVisitor<T> visitor) {
+		return visitor.visitText(this);
 	}
 	
 	public List<String> getText() { return text; }

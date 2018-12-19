@@ -11,5 +11,5 @@ public abstract class WhiteboardItem {
 	
 	public String getName() { return name; }
 	
-	public abstract void accept(WhiteboardItemVisitor visitor);
+	public abstract <T> T accept(WhiteboardItemVisitor<T> visitor);
 }

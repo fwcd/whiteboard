@@ -17,8 +17,8 @@ public class PathItem extends WhiteboardItem {
 	}
 	
 	@Override
-	public void accept(WhiteboardItemVisitor visitor) {
-		visitor.visitPath(this);
+	public <T> T accept(WhiteboardItemVisitor<T> visitor) {
+		return visitor.visitPath(this);
 	}
 	
 	public List<Vec2> getVertices() { return vertices; }

@@ -17,8 +17,8 @@ public class LineItem extends WhiteboardItem {
 	}
 	
 	@Override
-	public void accept(WhiteboardItemVisitor visitor) {
-		visitor.visitLine(this);
+	public <T> T accept(WhiteboardItemVisitor<T> visitor) {
+		return visitor.visitLine(this);
 	}
 	
 	public Vec2 getStart() { return start; }
