@@ -32,6 +32,11 @@ public class ClientConnectionHandler implements Runnable {
 			receiver.runWhile(() -> !socket.isClosed());
 		} catch (Exception e) {
 			System.out.println(e.getClass().getSimpleName() + " in ClientConnectionHandler #" + hashCode() + ": " + e.getMessage()); // TODO: Proper logging
+			Throwable cause = e.getCause();
+			while (cause != null) {
+				System.out.println("Cause: " + cause.getClass().getSimpleName() + ": " + cause.getMessage());
+				cause = cause.getCause();
+			}
 		}
 		
 		activeConnections.remove(connection);

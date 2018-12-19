@@ -42,9 +42,18 @@ public class MessageDeserializer implements JsonDeserializer<Message> {
 			String name = message.get("name").getAsString();
 			
 			switch (category) {
-				case MessageCategory.REQUEST: return context.deserialize(message, requestClasses.get(name));
-				case MessageCategory.EVENT: return context.deserialize(message, eventClasses.get(name));
-				default: throw new JsonParseException("Invalid message category: " + category);
+				case MessageCategory.REQUEST:
+					if (!requestClasses.containsKey(name)) {
+						throw new JsonParseException("Unknown message request: " + name);
+					}
+					return context.deserialize(message, requestClasses.get(name));
+				case MessageCategory.EVENT:
+					if (!eventClasses.containsKey(name)) {
+						throw new JsonParseException("Unknown message event: " + name);
+					}
+					return context.deserialize(message, eventClasses.get(name));
+				default:
+					throw new JsonParseException("Invalid message category: " + category);
 			}
 		} catch (Exception e) {
 			throw new JsonParseException("Could not parse " + json + " to a Message", e);

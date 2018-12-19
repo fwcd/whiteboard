@@ -1,10 +1,13 @@
 package fwcd.whiteboard.endpoint;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.BooleanSupplier;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 
 import fwcd.fructose.Either;
 import fwcd.whiteboard.endpoint.json.MessageDeserializer;
@@ -16,19 +19,14 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
 
 /**
- * Reads messages from a JSON input stream and
- * dispatches them to a client/server interface.
+ * Reads messages from a JSON input stream and dispatches them to a
+ * client/server interface.
  */
 public class ProtocolReceiver implements MessageDispatcher {
-	private final Gson gson = new GsonBuilder()
-		.registerTypeAdapter(Message.class, new MessageDeserializer())
-		.registerTypeAdapter(WhiteboardItem.class, new WhiteboardItemDeserializer())
-		.create();
+	private final Gson gson = new GsonBuilder().registerTypeAdapter(Message.class, new MessageDeserializer())
+			.registerTypeAdapter(WhiteboardItem.class, new WhiteboardItemDeserializer()).create();
 	private final InputStream jsonInput;
 	private final Either<WhiteboardClient, WhiteboardServer> receiver;
 	
