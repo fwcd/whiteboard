@@ -7,6 +7,9 @@ import java.net.Socket;
 import fwcd.whiteboard.endpoint.RemoteWhiteboard;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 
+/**
+ * An active connection with a client.
+ */
 public class ClientConnection {
 	private final Socket clientSocket;
 	private final WhiteboardClient clientProxy;

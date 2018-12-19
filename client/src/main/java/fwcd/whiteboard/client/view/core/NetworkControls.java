@@ -1,5 +1,7 @@
 package fwcd.whiteboard.client.view.core;
 
+import java.io.IOException;
+
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -11,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import fwcd.fructose.swing.ResourceImage;
 import fwcd.fructose.swing.View;
+import fwcd.whiteboard.client.model.network.ServerConnector;
 import fwcd.whiteboard.client.view.utils.BoolIndicatorLight;
 
 public class NetworkControls implements View {
@@ -23,28 +26,27 @@ public class NetworkControls implements View {
 	private JLabel statusLabel;
 	private JButton connectButton;
 
-	public NetworkControls(boolean horizontal) {
+	public NetworkControls(boolean horizontal, ServerConnector connector) {
 		component = new JPanel();
 		component.setLayout(new BoxLayout(component, horizontal ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS));
 		component.setBorder(new EmptyBorder(0, 0, 0, 0));
 		component.setOpaque(false);
 
 		indicator = new BoolIndicatorLight();
+		connector.getActiveConnection().listenAndFire(connection -> indicator.setEnabled(connection.isPresent()));
 		component.add(indicator.getComponent());
 
 		statusLabel = new JLabel();
 		component.add(statusLabel);
 
 		connectButton = new JButton(ICON);
-		connectButton.setEnabled(false); // TODO: Implement networking properly and enable this button
 		connectButton.addActionListener((l) -> {
 			try {
 				if (dialog.show()) {
-					// TODO
-					System.out.println(dialog.getHost() + ":" + dialog.getPort());
+					connector.connect(dialog.getHost(), dialog.getPort());
 				}
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Invalid IP address!");
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, e.getClass().getSimpleName() + ": " + e.getMessage());
 			}
 		});
 		component.add(connectButton);

@@ -22,6 +22,7 @@ import fwcd.fructose.swing.View;
 import fwcd.sketch.view.canvas.SketchBoardView;
 import fwcd.sketch.view.tools.CommonSketchTool;
 import fwcd.sketch.view.tools.SketchTool;
+import fwcd.whiteboard.client.model.WhiteboardModel;
 
 public class SideBarView implements View {
 	private static final Icon HELP_ICON = new ResourceImage("/helpIcon.png").getAsIcon();
@@ -47,7 +48,7 @@ public class SideBarView implements View {
 			"Draw using your mouse!"
 	);
 	
-	public SideBarView(SketchBoardView drawBoard, boolean horizontal) {
+	public SideBarView(SketchBoardView drawBoard, boolean horizontal, WhiteboardModel model) {
 		component = new JToolBar(horizontal ? JToolBar.HORIZONTAL : JToolBar.VERTICAL);
 		component.setOpaque(true);
 		component.setFloatable(false);
@@ -137,7 +138,7 @@ public class SideBarView implements View {
 		otherButtonsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		otherButtonsPane.setOpaque(false);
 		
-		networkControls = new NetworkControls(horizontal);
+		networkControls = new NetworkControls(horizontal, model.getServerConnector());
 		otherButtonsPane.add(networkControls.getComponent());
 		
 		JButton helpButton = new JButton();

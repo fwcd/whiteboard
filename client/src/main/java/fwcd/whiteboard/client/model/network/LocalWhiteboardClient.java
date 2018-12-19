@@ -1,4 +1,4 @@
-package fwcd.whiteboard.client.model;
+package fwcd.whiteboard.client.model.network;
 
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.sketch.model.items.BoardItem;

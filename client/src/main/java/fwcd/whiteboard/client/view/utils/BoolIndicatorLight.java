@@ -28,6 +28,7 @@ public class BoolIndicatorLight implements View {
 	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+		component.repaint();
 	}
 
 	private void render(Graphics2D g2d, Dimension canvasSize) {

@@ -33,7 +33,7 @@ public class WhiteboardView implements View {
 		drawBoard = new SketchBoardView(model.getBoard());
 		component.add(drawBoard.getComponent(), BorderLayout.CENTER);
 		
-		sideBar = new SideBarView(drawBoard, /* horizontal */ false);
+		sideBar = new SideBarView(drawBoard, /* horizontal */ false, model);
 		component.add(sideBar.getComponent(), BorderLayout.WEST);
 		
 		component.setVisible(true);
