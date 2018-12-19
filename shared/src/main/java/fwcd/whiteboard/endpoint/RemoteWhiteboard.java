@@ -1,7 +1,9 @@
 package fwcd.whiteboard.endpoint;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UncheckedIOException;
 import java.io.Writer;
 
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
@@ -27,10 +29,20 @@ public class RemoteWhiteboard implements WhiteboardServer, WhiteboardClient {
 	@Override
 	public void otherRequest(Request request) {
 		gson.toJson(request, writer);
+		flush();
 	}
 	
 	@Override
 	public void otherEvent(Event event) {
 		gson.toJson(event, writer);
+		flush();
+	}
+	
+	private void flush() {
+		try {
+			writer.flush();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 }

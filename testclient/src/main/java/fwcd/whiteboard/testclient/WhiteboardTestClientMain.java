@@ -51,6 +51,7 @@ public class WhiteboardTestClientMain {
 				int read;
 				while ((read = reader.read()) >= 0) {
 					System.out.print((char) read);
+					System.out.flush();
 				}
 			} catch (IOException e) {
 				System.out.println("IOException while piping to stdout: " + e.getMessage());

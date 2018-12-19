@@ -1,5 +1,6 @@
 package fwcd.whiteboard.server;
 
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Set;
 
