@@ -32,4 +32,9 @@ public class RectItem extends WhiteboardItem {
 	public Color getColor() { return color; }
 	
 	public double getThickness() { return thickness; }
+	
+	@Override
+	public String toString() {
+		return "RectItem [topLeft=" + topLeft + ",width=" + width + ",height=" + height + ",color=" + color + ",thickness=" + thickness + "]";
+	}
 }

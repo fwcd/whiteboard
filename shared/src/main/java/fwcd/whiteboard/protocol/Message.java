@@ -16,4 +16,9 @@ public abstract class Message {
 	public String getName() { return name; }
 	
 	public abstract void dispatch(MessageDispatcher dispatcher);
+	
+	@Override
+	public String toString() {
+		return "Message [name=" + name + ", category=" + category + "]";
+	}
 }

@@ -30,4 +30,9 @@ public class TextItem extends WhiteboardItem {
 	public Color getColor() { return color; }
 	
 	public double getSize() { return size; }
+	
+	@Override
+	public String toString() {
+		return "TextItem [text=" + text + ",pos=" + pos + ",color=" + color + ",size=" + size + "]";
+	}
 }

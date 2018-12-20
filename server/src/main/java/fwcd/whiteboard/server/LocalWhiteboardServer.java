@@ -3,6 +3,9 @@ package fwcd.whiteboard.server;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
@@ -12,6 +15,7 @@ import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.request.SetAllItemsRequest;
 
 public class LocalWhiteboardServer implements WhiteboardServer {
+	private static final Logger LOG = LoggerFactory.getLogger(LocalWhiteboardServer.class);
 	private final Set<ClientConnection> activeConnections;
 	private final ServerWhiteboardModel model = new ServerWhiteboardModel();
 	
@@ -53,6 +57,6 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 	
 	@Override
 	public void otherRequest(Request request) {
-		System.out.println("Unknown request: " + request); // TODO: Proper logging
+		LOG.info("Received unknown request: {}", request);
 	}
 }

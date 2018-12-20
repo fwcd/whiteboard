@@ -8,6 +8,8 @@ repositories {
 }
 
 dependencies {
+	api 'org.slf4j:slf4j-api:1.7.25'
+	api 'ch.qos.logback:logback-classic:1.2.3'
 	implementation 'com.github.fwcd:Fructose:b12e36618dc3d386cde73b25efe45723f88eb859'
 	implementation 'com.google.code.gson:gson:2.6.2'
 }

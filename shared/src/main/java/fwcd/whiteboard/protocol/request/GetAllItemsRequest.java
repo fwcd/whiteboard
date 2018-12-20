@@ -11,4 +11,9 @@ public class GetAllItemsRequest extends Request {
 	public void sendTo(WhiteboardServer server) {
 		server.getAllItems(this);
 	}
+	
+	@Override
+	public String toString() {
+		return "GetAllItemsRequest";
+	}
 }

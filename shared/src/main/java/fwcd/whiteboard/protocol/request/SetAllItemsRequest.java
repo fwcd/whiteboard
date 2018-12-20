@@ -19,4 +19,9 @@ public class SetAllItemsRequest extends Request {
 	}
 	
 	public List<? extends WhiteboardItem> getItems() { return items; }
+	
+	@Override
+	public String toString() {
+		return "SetAllItemsRequest [items=" + items + "]";
+	}
 }

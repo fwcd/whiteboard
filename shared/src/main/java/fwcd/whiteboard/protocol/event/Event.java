@@ -16,4 +16,9 @@ public abstract class Event extends Message {
 	}
 	
 	public abstract void sendTo(WhiteboardClient client);
+	
+	@Override
+	public String toString() {
+		return "Event [name=" + getName() + "]";
+	}
 }

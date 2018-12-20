@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation project(':shared')
-    implementation 'com.github.fwcd:Fructose:b12e36618dc3d386cde73b25efe45723f88eb859'
+	implementation 'com.github.fwcd:Fructose:b12e36618dc3d386cde73b25efe45723f88eb859'
     testImplementation 'junit:junit:4.12'
 }
 

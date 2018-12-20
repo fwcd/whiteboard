@@ -1,5 +1,8 @@
 package fwcd.whiteboard.client.model.network;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.sketch.model.items.BoardItem;
 import fwcd.sketch.model.items.SketchItem;
@@ -16,6 +19,7 @@ import fwcd.whiteboard.protocol.struct.WhiteboardItem;
  * with the client's whiteboard.
  */
 public class LocalWhiteboardClient implements WhiteboardClient {
+	private static final Logger LOG = LoggerFactory.getLogger(LocalWhiteboardClient.class);
 	private final SketchBoardModel board;
 	private final WhiteboardItemVisitor<SketchItem> converter = new FromProtocolItemConverter();
 	
@@ -40,6 +44,6 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	
 	@Override
 	public void otherEvent(Event event) {
-		System.out.println("Unknown event: " + event); // TODO: Proper logging
+		LOG.info("Received unknown event: {}", event);
 	}
 }

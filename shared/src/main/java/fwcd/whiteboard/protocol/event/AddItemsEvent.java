@@ -23,4 +23,9 @@ public class AddItemsEvent extends Event {
 	public List<? extends WhiteboardItem> getAddedItems() { return addedItems; }
 	
 	public int getTotalItemCount() { return totalItemCount; }
+	
+	@Override
+	public String toString() {
+		return "AddItemsEvent [addedItems=" + addedItems + ", totalItemCount=" + totalItemCount + "]";
+	}
 }

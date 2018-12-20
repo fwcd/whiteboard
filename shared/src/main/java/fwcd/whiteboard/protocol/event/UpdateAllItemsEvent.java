@@ -19,4 +19,9 @@ public class UpdateAllItemsEvent extends Event {
 	}
 	
 	public List<? extends WhiteboardItem> getItems() { return items; }
+	
+	@Override
+	public String toString() {
+		return "UpdateAllItemsEvent [items=" + items + "]";
+	}
 }

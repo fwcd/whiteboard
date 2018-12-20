@@ -19,4 +19,9 @@ public class AddItemsRequest extends Request {
 	}
 	
 	public List<? extends WhiteboardItem> getAddedItems() { return addedItems; }
+	
+	@Override
+	public String toString() {
+		return "AddItemsRequest [addedItems=" + addedItems + "]";
+	}
 }

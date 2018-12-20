@@ -16,4 +16,9 @@ public abstract class Request extends Message {
 	}
 	
 	public abstract void sendTo(WhiteboardServer server);
+	
+	@Override
+	public String toString() {
+		return "Request [name=" + getName() + "]";
+	}
 }

@@ -12,4 +12,9 @@ public class Vec2 {
 	public double getX() { return x; }
 	
 	public double getY() { return y; }
+	
+	@Override
+	public String toString() {
+		return "Vec2 (" + x + ", " + y + ")";
+	}
 }

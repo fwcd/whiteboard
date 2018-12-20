@@ -28,4 +28,9 @@ public class LineItem extends WhiteboardItem {
 	public Color getColor() { return color; }
 	
 	public double getThickness() { return thickness; }
+	
+	@Override
+	public String toString() {
+		return "LineItem [start=" + start + ",end=" + end + ",color=" + color + ",thickness=" + thickness + "]";
+	}
 }

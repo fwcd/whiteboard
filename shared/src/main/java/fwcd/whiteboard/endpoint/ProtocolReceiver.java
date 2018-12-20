@@ -3,11 +3,18 @@ package fwcd.whiteboard.endpoint;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fwcd.fructose.Either;
 import fwcd.fructose.Option;
@@ -20,16 +27,19 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
+import fwcd.whiteboard.utils.ExceptionHandler;
 
 /**
  * Reads messages from a JSON input stream and dispatches them to a
  * client/server interface.
  */
 public class ProtocolReceiver implements MessageDispatcher {
+	private static final Logger LOG = LoggerFactory.getLogger(ProtocolReceiver.class);
 	private final Gson gson = new GsonBuilder().registerTypeAdapter(Message.class, new MessageDeserializer())
 			.registerTypeAdapter(WhiteboardItem.class, new WhiteboardItemDeserializer()).create();
 	private final InputStream jsonInput;
 	private final Either<WhiteboardClient, WhiteboardServer> receiver;
+	private final List<ExceptionHandler<?>> exceptionHandlers = new ArrayList<>();
 	private Option<Runnable> onClose = Option.empty();
 	
 	private ProtocolReceiver(InputStream jsonInput, Either<WhiteboardClient, WhiteboardServer> receiver) {
@@ -46,6 +56,38 @@ public class ProtocolReceiver implements MessageDispatcher {
 	}
 	
 	/**
+	 * Adds a handler for (unchecked) exceptions.
+	 * 
+	 * @param exceptionType - The runtime type of the exception to handle
+	 * @param action - The function to invoke. Accepts the exception and returns true if this object should continue to run.
+	 */
+	public <T extends Throwable> void addExceptionHandler(Class<? extends T> exceptionType, Function<? super T, Boolean> action) {
+		exceptionHandlers.add(new ExceptionHandler<>(exceptionType, action));
+	}
+	
+	/**
+	 * Adds a listener for (unchecked) exceptions. This method does not
+	 * have any effect on whether the loop continues to run (by always
+	 * returning true) as opposed to {@code addExceptionHandler}.
+	 * 
+	 * @param exceptionType - The runtime type of the exception to respond to
+	 * @param action - The consumer to invoke. Accepts the exception.
+	 */
+	public <T extends Throwable> void addExceptionListener(Class<? extends T> exceptionType, Consumer<? super T> action) {
+		addExceptionHandler(exceptionType, e -> {
+			action.accept(e);
+			return true;
+		});
+	}
+	
+	/**
+	 * Removes all registered exception handlers for the given type.
+	 */
+	public void removeExceptionHandlers(Class<?> exceptionType) {
+		exceptionHandlers.removeIf(it -> it.getExceptionType().equals(exceptionType));
+	}
+	
+	/**
 	 * Adds a close handler that is invoked once the
 	 * receiver has finished running.
 	 */
@@ -57,10 +99,23 @@ public class ProtocolReceiver implements MessageDispatcher {
 	 */
 	public void runWhile(BooleanSupplier condition) throws IOException {
 		try (JsonReader reader = gson.newJsonReader(new InputStreamReader(jsonInput))) {
-			while (condition.getAsBoolean()) {
-				// Parse the next JSON object from the stream
-				Message message = gson.fromJson(reader, Message.class);
-				message.dispatch(this);
+			boolean continueLoop = true;
+			while (continueLoop && condition.getAsBoolean()) {
+				try {
+					// Parse the next JSON object from the stream
+					Message message = gson.fromJson(reader, Message.class);
+					message.dispatch(this);
+					LOG.debug(">> In:  {}", message);
+				} catch (RuntimeException e) {
+					Class<? extends RuntimeException> exceptionType = e.getClass();
+					continueLoop = true;
+					
+					for (ExceptionHandler<?> handler : exceptionHandlers) {
+						if (handler.getExceptionType().equals(exceptionType)) {
+							continueLoop &= handler.run(e);
+						}
+					}
+				}
 			}
 			onClose.ifPresent(Runnable::run);
 		}
@@ -70,14 +125,14 @@ public class ProtocolReceiver implements MessageDispatcher {
 	public void receiveEvent(Event event) {
 		receiver.match(
 			client -> event.sendTo(client),
-			server -> System.out.println("Server should not receive Event messages!") // TODO: Proper logging that does not happen on System.out (which potentially also transports JSON objects)
+			server -> LOG.warn("Server should not receive Event messages!") // TODO: Proper logging that does not happen on System.out (which potentially also transports JSON objects)
 		);
 	}
 	
 	@Override
 	public void receiveRequest(Request request) {
 		receiver.match(
-			client -> System.out.println("Client should not receive Request messages!"), // TODO: Proper logging that does not happen on System.out (which potentially also transports JSON objects)
+			client -> LOG.warn("Client should not receive Request messages!"), // TODO: Proper logging that does not happen on System.out (which potentially also transports JSON objects)
 			server -> request.sendTo(server)
 		);
 	}

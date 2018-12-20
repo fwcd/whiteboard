@@ -12,4 +12,9 @@ public abstract class WhiteboardItem {
 	public String getName() { return name; }
 	
 	public abstract <T> T accept(WhiteboardItemVisitor<T> visitor);
+	
+	@Override
+	public String toString() {
+		return "WhiteboardItem [name=" + name + "]";
+	}
 }

@@ -26,4 +26,9 @@ public class PathItem extends WhiteboardItem {
 	public double getThickness() { return thickness; }
 	
 	public Color getColor() { return color; }
+	
+	@Override
+	public String toString() {
+		return "PathItem [vertices=" + vertices + ",color=" + color + ",thickness=" + thickness + "]";
+	}
 }

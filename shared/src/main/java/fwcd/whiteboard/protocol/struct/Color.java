@@ -21,4 +21,9 @@ public class Color {
 	public double getB() { return b; }
 	
 	public double getA() { return a; }
+	
+	@Override
+	public String toString() {
+		return "RGBA (" + r + ", " + g + ", " + b + ", " + a + ")";
+	}
 }
