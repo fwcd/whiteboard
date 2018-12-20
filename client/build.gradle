@@ -1,18 +1,18 @@
 plugins {
-    id 'java'
-    id 'application'
+	id 'java'
+	id 'application'
 }
 
 mainClassName = 'fwcd.whiteboard.client.WhiteboardClientMain'
 
 repositories {
-    jcenter()
-    maven { url 'https://jitpack.io' }
+	jcenter()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation project(':shared')
+	implementation project(':shared')
 	implementation 'com.github.fwcd:Fructose:b12e36618dc3d386cde73b25efe45723f88eb859'
-    implementation 'com.github.fwcd:Sketch:fa7728f1964ac0a534f990a8bc3b446b356d5979'
-    testImplementation 'junit:junit:4.12'
+	implementation 'com.github.fwcd:Sketch:fa7728f1964ac0a534f990a8bc3b446b356d5979'
+	testImplementation 'junit:junit:4.12'
 }
