@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import fwcd.fructose.swing.HintTextField;
+
 public class ConnectionDialog {
 	private JPanel component;
 	
@@ -21,7 +23,7 @@ public class ConnectionDialog {
 		component.setLayout(new GridLayout(2, 2));
 		
 		component.add(new JLabel("Host:"));
-		hostField = new JTextField();
+		hostField = new HintTextField("localhost");
 		component.add(hostField);
 		
 		component.add(new JLabel("Port:"));

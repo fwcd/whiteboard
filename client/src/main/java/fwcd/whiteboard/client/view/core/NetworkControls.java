@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import fwcd.fructose.swing.ResourceImage;
 import fwcd.fructose.swing.View;
-import fwcd.whiteboard.client.model.network.ServerConnector;
+import fwcd.whiteboard.client.model.network.ServerConnectionManager;
 import fwcd.whiteboard.client.view.utils.BoolIndicatorLight;
 
 public class NetworkControls implements View {
@@ -27,7 +27,7 @@ public class NetworkControls implements View {
 	private JLabel statusLabel;
 	private JButton connectButton;
 
-	public NetworkControls(boolean horizontal, ServerConnector connector) {
+	public NetworkControls(boolean horizontal, ServerConnectionManager connector) {
 		component = new JPanel();
 		component.setLayout(new BoxLayout(component, horizontal ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS));
 		component.setBorder(new EmptyBorder(0, 0, 0, 0));

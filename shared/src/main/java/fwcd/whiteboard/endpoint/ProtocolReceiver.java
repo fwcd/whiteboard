@@ -35,7 +35,8 @@ import fwcd.whiteboard.utils.ExceptionHandler;
  */
 public class ProtocolReceiver implements MessageDispatcher {
 	private static final Logger LOG = LoggerFactory.getLogger(ProtocolReceiver.class);
-	private final Gson gson = new GsonBuilder().registerTypeAdapter(Message.class, new MessageDeserializer())
+	private final Gson gson = new GsonBuilder()
+			.registerTypeAdapter(Message.class, new MessageDeserializer())
 			.registerTypeAdapter(WhiteboardItem.class, new WhiteboardItemDeserializer()).create();
 	private final InputStream jsonInput;
 	private final Either<WhiteboardClient, WhiteboardServer> receiver;

@@ -13,7 +13,6 @@ import fwcd.sketch.model.event.BoardItemEventBus;
 import fwcd.sketch.model.items.SketchItem;
 import fwcd.whiteboard.client.model.convert.ToProtocolItemConverter;
 import fwcd.whiteboard.endpoint.ProtocolReceiver;
-import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
@@ -22,25 +21,28 @@ import fwcd.whiteboard.protocol.struct.WhiteboardItem;
  * A facility that establishes and holds an
  * active connection to a server once present.
  */
-public class ServerConnector {
-	private final WhiteboardClient client;
+public class ServerConnectionManager {
+	private final ClientNetworkContext context = new ClientNetworkContext();
+	private final LocalWhiteboardClient client;
 	private final Observable<Option<ServerConnection>> activeConnection = new Observable<>(Option.empty());
 	
-	public ServerConnector(SketchBoardModel board) {
-		client = new LocalWhiteboardClient(board);
+	public ServerConnectionManager(SketchBoardModel board) {
+		client = new LocalWhiteboardClient(board, context);
 		registerListeners(board);
 	}
 	
 	private void registerListeners(SketchBoardModel board) {
 		BoardItemEventBus eventBus = board.getItemEventBus();
 		
-		eventBus.getAddListeners().add(item ->
-			toProtocolItem(item.get()).ifPresent(protocolItem ->
-				ifConnected(wb ->
-					wb.addItems(new AddItemsRequest(Collections.singletonList(protocolItem)))
-				)
-			)
-		);
+		eventBus.getAddListeners().add(item -> {
+			if (!context.isSilent()) {
+				toProtocolItem(item.get()).ifPresent(protocolItem ->
+					ifConnected(wb -> {
+						wb.addItems(new AddItemsRequest(Collections.singletonList(protocolItem)));
+					})
+				);
+			}
+		});
 	}
 	
 	private Option<WhiteboardItem> toProtocolItem(SketchItem item) {

@@ -15,31 +15,37 @@ import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 /**
- * A local whiteboard endpoint that interfaces
- * with the client's whiteboard.
+ * A local whiteboard endpoint that accepts
+ * events from the server using a high-level interface.
  */
 public class LocalWhiteboardClient implements WhiteboardClient {
 	private static final Logger LOG = LoggerFactory.getLogger(LocalWhiteboardClient.class);
+	private final ClientNetworkContext context;
 	private final SketchBoardModel board;
 	private final WhiteboardItemVisitor<SketchItem> converter = new FromProtocolItemConverter();
 	
-	public LocalWhiteboardClient(SketchBoardModel board) {
+	public LocalWhiteboardClient(SketchBoardModel board, ClientNetworkContext context) {
 		this.board = board;
+		this.context = context;
 	}
 	
 	@Override
 	public void addItems(AddItemsEvent event) {
+		context.setSilent(true);
 		for (WhiteboardItem item : event.getAddedItems()) {
 			board.addItem(new BoardItem(item.accept(converter)));
 		}
+		context.setSilent(false);
 	}
 	
 	@Override
 	public void updateAllItems(UpdateAllItemsEvent event) {
+		context.setSilent(true);
 		board.clear();
 		for (WhiteboardItem item : event.getItems()) {
 			board.addItem(new BoardItem(item.accept(converter)));
 		}
+		context.setSilent(false);
 	}
 	
 	@Override

@@ -6,9 +6,9 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 public class AddItemsRequest extends Request {
-	private final List<? extends WhiteboardItem> addedItems;
+	private final List<WhiteboardItem> addedItems;
 	
-	public AddItemsRequest(List<? extends WhiteboardItem> addedItems) {
+	public AddItemsRequest(List<WhiteboardItem> addedItems) {
 		super(RequestName.ADD_ITEMS);
 		this.addedItems = addedItems;
 	}
@@ -18,7 +18,7 @@ public class AddItemsRequest extends Request {
 		server.addItems(this);
 	}
 	
-	public List<? extends WhiteboardItem> getAddedItems() { return addedItems; }
+	public List<WhiteboardItem> getAddedItems() { return addedItems; }
 	
 	@Override
 	public String toString() {
