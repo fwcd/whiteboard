@@ -29,21 +29,21 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 	@Override
 	public void addItems(AddItemsRequest request) {
 		synchronized (model) {
-			model.addItems(request.getAddedItems());
+			model.addItems(request.getSenderId(), request.getAddedItems());
 		}
 	}
 	
 	@Override
 	public void getAllItems(GetAllItemsRequest request) {
 		synchronized (model) {
-			forEachClient(c -> c.updateAllItems(new UpdateAllItemsEvent(model.getItems())));
+			forEachClient(c -> c.updateAllItems(new UpdateAllItemsEvent(request.getSenderId(), model.getItems())));
 		}
 	}
 	
 	@Override
 	public void setAllItems(SetAllItemsRequest request) {
 		synchronized (model) {
-			model.setAllItems(request.getItems());
+			model.setAllItems(request.getSenderId(), request.getItems());
 		}
 	}
 	

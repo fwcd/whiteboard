@@ -1,5 +1,7 @@
 package fwcd.whiteboard.client.model.network;
 
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,25 +33,33 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	
 	@Override
 	public void addItems(AddItemsEvent event) {
-		context.setSilent(true);
-		for (WhiteboardItem item : event.getAddedItems()) {
-			board.addItem(new BoardItem(item.accept(converter)));
-		}
-		context.setSilent(false);
+		withEvent(event, e -> {
+			for (WhiteboardItem item : e.getAddedItems()) {
+				board.addItem(new BoardItem(item.accept(converter)));
+			}
+		});
 	}
 	
 	@Override
 	public void updateAllItems(UpdateAllItemsEvent event) {
-		context.setSilent(true);
-		board.clear();
-		for (WhiteboardItem item : event.getItems()) {
-			board.addItem(new BoardItem(item.accept(converter)));
-		}
-		context.setSilent(false);
+		withEvent(event, e -> {
+			board.clear();
+			for (WhiteboardItem item : e.getItems()) {
+				board.addItem(new BoardItem(item.accept(converter)));
+			}
+		});
 	}
 	
 	@Override
 	public void otherEvent(Event event) {
 		LOG.info("Received unknown event: {}", event);
+	}
+	
+	private <T extends Event> void withEvent(T event, Consumer<T> handler) {
+		if (event.getRequesterId() != context.getClientId()) {
+			context.setSilent(true);
+			handler.accept(event);
+			context.setSilent(false);
+		}
 	}
 }

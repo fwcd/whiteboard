@@ -38,7 +38,7 @@ public class ServerConnectionManager {
 			if (!context.isSilent()) {
 				toProtocolItem(item.get()).ifPresent(protocolItem ->
 					ifConnected(wb -> {
-						wb.addItems(new AddItemsRequest(Collections.singletonList(protocolItem)));
+						wb.addItems(new AddItemsRequest(context.getClientId(), Collections.singletonList(protocolItem)));
 					})
 				);
 			}

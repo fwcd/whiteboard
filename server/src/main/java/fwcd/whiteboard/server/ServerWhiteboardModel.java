@@ -13,15 +13,15 @@ public class ServerWhiteboardModel {
 	private final EventListenerList<AddItemsEvent> addListeners = new EventListenerList<>();
 	private final EventListenerList<UpdateAllItemsEvent> updateAllListeners = new EventListenerList<>();
 	
-	public void addItems(List<WhiteboardItem> addedItems) {
+	public void addItems(long requesterId, List<WhiteboardItem> addedItems) {
 		items.addAll(addedItems);
-		addListeners.fire(new AddItemsEvent(addedItems, items.size()));
+		addListeners.fire(new AddItemsEvent(requesterId, addedItems, items.size()));
 	}
 	
-	public void setAllItems(List<WhiteboardItem> newItems) {
+	public void setAllItems(long requesterId, List<WhiteboardItem> newItems) {
 		items.clear();
 		items.addAll(newItems);
-		updateAllListeners.fire(new UpdateAllItemsEvent(newItems));
+		updateAllListeners.fire(new UpdateAllItemsEvent(requesterId, newItems));
 	}
 	
 	public List<WhiteboardItem> getItems() { return items; }
