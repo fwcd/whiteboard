@@ -5,10 +5,13 @@ import java.util.List;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardItemVisitor;
 
 public class TextItem extends WhiteboardItem {
-	private final List<String> text;
-	private final Vec2 pos;
-	private final Color color;
-	private final double size;
+	private List<String> text;
+	private Vec2 pos;
+	private Color color;
+	private double size;
+	
+	// Gson constructor
+	protected TextItem() {}
 	
 	public TextItem(List<String> text, Vec2 pos, Color color, double size) {
 		super(WhiteboardItemName.TEXT);

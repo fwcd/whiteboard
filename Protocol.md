@@ -19,6 +19,7 @@ An event is a message sent from the server to a client.
 ```typescript
 interface Event extends Message {
 	category: "event";
+	requesterId: number;
 }
 ```
 
@@ -49,6 +50,7 @@ A request is a message sent from a client to the server.
 ```typescript
 interface Request extends Message {
 	category: "request";
+	senderId: number;
 }
 ```
 

@@ -3,7 +3,10 @@ package fwcd.whiteboard.protocol.struct;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardItemVisitor;
 
 public abstract class WhiteboardItem {
-	private final String name;
+	private String name;
+	
+	// Gson constructor
+	protected WhiteboardItem() {}
 	
 	public WhiteboardItem(String name) {
 		this.name = name;

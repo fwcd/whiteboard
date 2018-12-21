@@ -6,10 +6,13 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 public class SetAllItemsRequest extends Request {
-	private final List<WhiteboardItem> items;
+	private List<WhiteboardItem> items;
 	
-	public SetAllItemsRequest(List<WhiteboardItem> items) {
-		super(RequestName.SET_ALL_ITEMS);
+	// Gson constructor
+	protected SetAllItemsRequest() {}
+	
+	public SetAllItemsRequest(long senderId, List<WhiteboardItem> items) {
+		super(senderId, RequestName.SET_ALL_ITEMS);
 		this.items = items;
 	}
 	

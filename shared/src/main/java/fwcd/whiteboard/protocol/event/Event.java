@@ -6,8 +6,14 @@ import fwcd.whiteboard.protocol.dispatch.MessageDispatcher;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 
 public abstract class Event extends Message {
-	public Event(String type) {
+	private long requesterId;
+	
+	// Gson constructor
+	protected Event() {}
+	
+	public Event(long requesterId, String type) {
 		super(MessageCategory.EVENT, type);
+		this.requesterId = requesterId;
 	}
 	
 	@Override
@@ -16,6 +22,8 @@ public abstract class Event extends Message {
 	}
 	
 	public abstract void sendTo(WhiteboardClient client);
+	
+	public long getRequesterId() { return requesterId; }
 	
 	@Override
 	public String toString() {

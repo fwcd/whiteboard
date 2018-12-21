@@ -3,8 +3,11 @@ package fwcd.whiteboard.protocol;
 import fwcd.whiteboard.protocol.dispatch.MessageDispatcher;
 
 public abstract class Message {
-	private final String category;
-	private final String name;
+	private String category;
+	private String name;
+	
+	// Gson constructor
+	protected Message() {}
 	
 	public Message(String category, String name) {
 		this.category = category;

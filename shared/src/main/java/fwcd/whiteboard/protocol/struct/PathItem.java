@@ -5,9 +5,12 @@ import java.util.List;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardItemVisitor;
 
 public class PathItem extends WhiteboardItem {
-	private final List<Vec2> vertices;
-	private final Color color;
-	private final double thickness;
+	private List<Vec2> vertices;
+	private Color color;
+	private double thickness;
+	
+	// Gson constructor
+	protected PathItem() {}
 	
 	public PathItem(List<Vec2> vertices, Color color, double thickness) {
 		super(WhiteboardItemName.PATH);

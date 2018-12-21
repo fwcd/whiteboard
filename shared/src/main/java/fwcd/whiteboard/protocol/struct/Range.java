@@ -1,8 +1,11 @@
 package fwcd.whiteboard.protocol.struct;
 
 public class Range {
-	private final int start;
-	private final int end;
+	private int start;
+	private int end;
+	
+	// Gson constructor
+	protected Range() {}
 	
 	public Range(int start, int end) {
 		this.start = start;

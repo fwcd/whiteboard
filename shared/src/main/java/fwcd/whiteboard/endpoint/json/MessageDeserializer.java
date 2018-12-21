@@ -10,9 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import fwcd.whiteboard.protocol.Message;
 import fwcd.whiteboard.protocol.MessageCategory;
 import fwcd.whiteboard.protocol.event.AddItemsEvent;
@@ -26,7 +23,6 @@ import fwcd.whiteboard.protocol.request.RequestName;
 import fwcd.whiteboard.protocol.request.SetAllItemsRequest;
 
 public class MessageDeserializer implements JsonDeserializer<Message> {
-	private static final Logger LOG = LoggerFactory.getLogger(MessageDeserializer.class);
 	private final Map<String, Class<? extends Event>> eventClasses = new HashMap<>();
 	private final Map<String, Class<? extends Request>> requestClasses = new HashMap<>();
 

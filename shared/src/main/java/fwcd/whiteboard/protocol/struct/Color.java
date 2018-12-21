@@ -2,10 +2,13 @@ package fwcd.whiteboard.protocol.struct;
 
 public class Color {
 	// Each value is between 0 and 255 (inclusive)
-	private final double r;
-	private final double g;
-	private final double b;
-	private final double a;
+	private double r;
+	private double g;
+	private double b;
+	private double a;
+	
+	// Gson constructor
+	protected Color() {}
 	
 	public Color(double r, double g, double b, double a) {
 		this.r = r;

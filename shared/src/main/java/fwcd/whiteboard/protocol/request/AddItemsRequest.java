@@ -6,10 +6,13 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 public class AddItemsRequest extends Request {
-	private final List<WhiteboardItem> addedItems;
+	private List<WhiteboardItem> addedItems;
 	
-	public AddItemsRequest(List<WhiteboardItem> addedItems) {
-		super(RequestName.ADD_ITEMS);
+	// Gson constructor
+	protected AddItemsRequest() {}
+	
+	public AddItemsRequest(long senderId, List<WhiteboardItem> addedItems) {
+		super(senderId, RequestName.ADD_ITEMS);
 		this.addedItems = addedItems;
 	}
 	

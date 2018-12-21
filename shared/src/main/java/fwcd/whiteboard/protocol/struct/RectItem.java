@@ -3,11 +3,14 @@ package fwcd.whiteboard.protocol.struct;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardItemVisitor;
 
 public class RectItem extends WhiteboardItem {
-	private final Vec2 topLeft;
-	private final double width;
-	private final double height;
-	private final Color color;
-	private final double thickness;
+	private Vec2 topLeft;
+	private double width;
+	private double height;
+	private Color color;
+	private double thickness;
+	
+	// Gson constructor
+	protected RectItem() {}
 	
 	public RectItem(Vec2 topLeft, double width, double height, Color color, double thickness) {
 		super(WhiteboardItemName.RECT);

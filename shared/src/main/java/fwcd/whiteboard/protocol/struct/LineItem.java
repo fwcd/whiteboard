@@ -3,10 +3,13 @@ package fwcd.whiteboard.protocol.struct;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardItemVisitor;
 
 public class LineItem extends WhiteboardItem {
-	private final Vec2 start;
-	private final Vec2 end;
-	private final Color color;
-	private final double thickness;
+	private Vec2 start;
+	private Vec2 end;
+	private Color color;
+	private double thickness;
+	
+	// Gson constructor
+	protected LineItem() {}
 	
 	public LineItem(Vec2 start, Vec2 end, Color color, double thickness) {
 		super(WhiteboardItemName.LINE);

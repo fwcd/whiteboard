@@ -6,10 +6,13 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 public class UpdateAllItemsEvent extends Event {
-	private final List<WhiteboardItem> items;
+	private List<WhiteboardItem> items;
 	
-	public UpdateAllItemsEvent(List<WhiteboardItem> items) {
-		super(EventName.UPDATE_ALL_ITEMS);
+	// Gson constructor
+	protected UpdateAllItemsEvent() {}
+	
+	public UpdateAllItemsEvent(long requesterId, List<WhiteboardItem> items) {
+		super(requesterId, EventName.UPDATE_ALL_ITEMS);
 		this.items = items;
 	}
 	
