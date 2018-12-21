@@ -1,7 +1,5 @@
 package fwcd.whiteboard.protocol.struct;
 
-import fwcd.fructose.Option;
-
 public class ClientInfo {
 	private long id;
 	private String name;
@@ -16,5 +14,5 @@ public class ClientInfo {
 	
 	public long getId() { return id; }
 	
-	public Option<String> getName() { return Option.ofNullable(name); }
+	public String getName() { return name; }
 }

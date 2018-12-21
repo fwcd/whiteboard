@@ -138,7 +138,7 @@ public class SideBarView implements View {
 		otherButtonsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		otherButtonsPane.setOpaque(false);
 		
-		networkControls = new NetworkControls(horizontal, model.getServerConnector());
+		networkControls = new NetworkControls(horizontal, model.getConnectionManager());
 		otherButtonsPane.add(networkControls.getComponent());
 		
 		JButton helpButton = new JButton();

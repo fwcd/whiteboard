@@ -67,7 +67,7 @@ public class FromProtocolItemConverter implements WhiteboardItemVisitor<SketchIt
 		return new ColoredText(lines, awtColorOf(nonNull(text.getColor(), "text color")), (float) text.getSize(), vectorOf(nonNull(text.getPos(), "text pos")));
 	}
 	
-	private Vector2D vectorOf(Vec2 vec) {
+	public Vector2D vectorOf(Vec2 vec) {
 		return new Vector2D(vec.getX(), vec.getY());
 	}
 	

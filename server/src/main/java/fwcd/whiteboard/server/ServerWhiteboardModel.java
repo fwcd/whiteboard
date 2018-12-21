@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import fwcd.fructose.EventListenerList;
+import fwcd.fructose.Option;
 import fwcd.whiteboard.protocol.event.AddItemsEvent;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.event.UpdateDrawPositionEvent;
@@ -26,7 +27,7 @@ public class ServerWhiteboardModel {
 	private final EventListenerList<UpdateAllItemsEvent> updateAllListeners = new EventListenerList<>();
 	private final EventListenerList<UpdateDrawPositionEvent> updateDrawPosListeners = new EventListenerList<>();
 	
-	public void updateClientDrawPosition(long requesterId, Vec2 position) {
+	public void updateClientDrawPosition(long requesterId, Option<Vec2> position) {
 		stateOf(requesterId).setDrawPos(position);
 		updateDrawPosListeners.fire(new UpdateDrawPositionEvent(clientInfoOf(requesterId), position));
 	}

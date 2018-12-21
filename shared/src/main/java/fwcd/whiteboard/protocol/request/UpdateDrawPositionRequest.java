@@ -1,5 +1,6 @@
 package fwcd.whiteboard.protocol.request;
 
+import fwcd.fructose.Option;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.struct.Vec2;
 
@@ -14,12 +15,16 @@ public class UpdateDrawPositionRequest extends Request {
 		this.drawPos = drawPos;
 	}
 	
+	public UpdateDrawPositionRequest(long senderId, Option<Vec2> drawPos) {
+		this(senderId, drawPos.orElseNull());
+	}
+	
 	@Override
 	public void sendTo(WhiteboardServer server) {
 		server.updateDrawPosition(this);
 	}
 	
-	public Vec2 getDrawPos() { return drawPos; }
+	public Option<Vec2> getDrawPos() { return Option.ofNullable(drawPos); }
 	
 	@Override
 	public String toString() {

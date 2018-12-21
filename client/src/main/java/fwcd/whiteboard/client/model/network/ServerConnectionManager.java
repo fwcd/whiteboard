@@ -12,6 +12,7 @@ import fwcd.sketch.model.SketchBoardModel;
 import fwcd.sketch.model.event.BoardItemEventBus;
 import fwcd.sketch.model.items.SketchItem;
 import fwcd.whiteboard.client.model.convert.ToProtocolItemConverter;
+import fwcd.whiteboard.client.model.overlay.BoardOverlayModel;
 import fwcd.whiteboard.endpoint.ProtocolReceiver;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
@@ -26,8 +27,8 @@ public class ServerConnectionManager {
 	private final LocalWhiteboardClient client;
 	private final Observable<Option<ServerConnection>> activeConnection = new Observable<>(Option.empty());
 	
-	public ServerConnectionManager(SketchBoardModel board) {
-		client = new LocalWhiteboardClient(board, context);
+	public ServerConnectionManager(SketchBoardModel board, BoardOverlayModel overlay) {
+		client = new LocalWhiteboardClient(board, overlay, context);
 		registerListeners(board);
 	}
 	
@@ -69,6 +70,8 @@ public class ServerConnectionManager {
 	public void ifConnected(Consumer<? super WhiteboardServer> action) {
 		activeConnection.get().map(ServerConnection::getServerProxy).ifPresent(action);
 	}
+	
+	public long getClientId() { return context.getClientId(); }
 	
 	public Observable<Option<ServerConnection>> getActiveConnection() { return activeConnection; }
 }

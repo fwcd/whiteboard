@@ -50,8 +50,8 @@ Send an updated draw position (e.g. a mouse coordinate) back to the clients.
 ```typescript
 interface UpdateDrawPositionEvent extends Event {
 	name: "updateDrawPosition";
-	drawPos: Vec2;
 	client: ClientInfo;
+	drawPos?: Vec2;
 }
 ```
 
@@ -100,7 +100,7 @@ Send an updated draw position (e.g. a mouse coordinate) to the server.
 ```typescript
 interface UpdateDrawPositionRequest extends Request {
 	name: "updateDrawPosition";
-	drawPos: Vec2;
+	drawPos?: Vec2;
 }
 ```
 

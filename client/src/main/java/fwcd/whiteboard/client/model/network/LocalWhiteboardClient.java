@@ -1,16 +1,21 @@
 package fwcd.whiteboard.client.model.network;
 
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwcd.fructose.geometry.Rectangle2D;
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.sketch.model.items.BoardItem;
+import fwcd.sketch.model.items.ColoredRect;
 import fwcd.sketch.model.items.SketchItem;
 import fwcd.whiteboard.client.model.convert.FromProtocolItemConverter;
+import fwcd.whiteboard.client.model.overlay.BoardOverlayModel;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
-import fwcd.whiteboard.protocol.dispatch.WhiteboardItemVisitor;
 import fwcd.whiteboard.protocol.event.AddItemsEvent;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
@@ -25,10 +30,13 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	private static final Logger LOG = LoggerFactory.getLogger(LocalWhiteboardClient.class);
 	private final ClientNetworkContext context;
 	private final SketchBoardModel board;
-	private final WhiteboardItemVisitor<SketchItem> converter = new FromProtocolItemConverter();
+	private final BoardOverlayModel overlay;
+	private final Map<Long, SketchItem> overlayItems = new HashMap<>();
+	private final FromProtocolItemConverter converter = new FromProtocolItemConverter();
 	
-	public LocalWhiteboardClient(SketchBoardModel board, ClientNetworkContext context) {
+	public LocalWhiteboardClient(SketchBoardModel board, BoardOverlayModel overlay, ClientNetworkContext context) {
 		this.board = board;
+		this.overlay = overlay;
 		this.context = context;
 	}
 	
@@ -54,7 +62,11 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	@Override
 	public void updateDrawPosition(UpdateDrawPositionEvent event) {
 		withEvent(event, e -> {
-			// TODO: Display the draw position overlay
+			SketchItem newItem = e.getDrawPos()
+				.map(pos -> new ColoredRect(new Rectangle2D(converter.vectorOf(pos), 10, 10), Color.BLUE, 1))
+				.orElseNull();
+			SketchItem oldItem = overlayItems.put(event.getRequester().getId(), newItem);
+			overlay.replaceItem(oldItem, newItem);
 		});
 	}
 	
