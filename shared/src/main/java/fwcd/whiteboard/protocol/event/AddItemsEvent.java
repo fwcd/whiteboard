@@ -3,6 +3,7 @@ package fwcd.whiteboard.protocol.event;
 import java.util.List;
 
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
+import fwcd.whiteboard.protocol.struct.ClientInfo;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 public class AddItemsEvent extends Event {
@@ -12,8 +13,8 @@ public class AddItemsEvent extends Event {
 	// Gson constructor
 	protected AddItemsEvent() {}
 	
-	public AddItemsEvent(long requesterId, List<WhiteboardItem> addedItems, int totalItemCount) {
-		super(requesterId, EventName.ADD_ITEMS);
+	public AddItemsEvent(ClientInfo requester, List<WhiteboardItem> addedItems, int totalItemCount) {
+		super(requester, EventName.ADD_ITEMS);
 		this.addedItems = addedItems;
 		this.totalItemCount = totalItemCount;
 	}

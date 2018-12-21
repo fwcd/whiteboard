@@ -13,6 +13,7 @@ import fwcd.whiteboard.protocol.request.AddItemsRequest;
 import fwcd.whiteboard.protocol.request.GetAllItemsRequest;
 import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.request.SetAllItemsRequest;
+import fwcd.whiteboard.protocol.request.UpdateDrawPositionRequest;
 
 public class LocalWhiteboardServer implements WhiteboardServer {
 	private static final Logger LOG = LoggerFactory.getLogger(LocalWhiteboardServer.class);
@@ -24,6 +25,7 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 		
 		model.getAddListeners().add(event -> forEachClient(c -> c.addItems(event)));
 		model.getUpdateAllListeners().add(event -> forEachClient(c -> c.updateAllItems(event)));
+		model.getUpdateDrawPosListeners().add(event -> forEachClient(c -> c.updateDrawPosition(event)));
 	}
 	
 	@Override
@@ -36,7 +38,7 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 	@Override
 	public void getAllItems(GetAllItemsRequest request) {
 		synchronized (model) {
-			forEachClient(c -> c.updateAllItems(new UpdateAllItemsEvent(request.getSenderId(), model.getItems())));
+			forEachClient(c -> c.updateAllItems(new UpdateAllItemsEvent(model.clientInfoOf(request.getSenderId()), model.getItems())));
 		}
 	}
 	
@@ -44,6 +46,13 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 	public void setAllItems(SetAllItemsRequest request) {
 		synchronized (model) {
 			model.setAllItems(request.getSenderId(), request.getItems());
+		}
+	}
+	
+	@Override
+	public void updateDrawPosition(UpdateDrawPositionRequest request) {
+		synchronized (model) {
+			model.updateClientDrawPosition(request.getSenderId(), request.getDrawPos());
 		}
 	}
 	

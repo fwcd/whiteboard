@@ -104,6 +104,7 @@ public class ProtocolReceiver implements MessageDispatcher {
 			while (continueLoop && condition.getAsBoolean()) {
 				try {
 					// Parse the next JSON object from the stream
+					// TODO: Delay?
 					Message message = gson.fromJson(reader, Message.class);
 					message.dispatch(this);
 					LOG.debug(">> In:  {}", message);

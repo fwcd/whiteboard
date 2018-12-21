@@ -19,7 +19,7 @@ An event is a message sent from the server to a client.
 ```typescript
 interface Event extends Message {
 	category: "event";
-	requesterId: number;
+	requester: ClientInfo;
 }
 ```
 
@@ -41,6 +41,17 @@ interface AddItemsEvent extends Event {
 	name: "addItems";
 	addedItems: WhiteboardItem[];
 	totalItemCount: number;
+}
+```
+
+### UpdateDrawPositionEvent
+Send an updated draw position (e.g. a mouse coordinate) back to the clients.
+
+```typescript
+interface UpdateDrawPositionEvent extends Event {
+	name: "updateDrawPosition";
+	drawPos: Vec2;
+	client: ClientInfo;
 }
 ```
 
@@ -83,6 +94,16 @@ interface AddItemsRequest extends Request {
 }
 ```
 
+### UpdateDrawPositionRequest
+Send an updated draw position (e.g. a mouse coordinate) to the server.
+
+```typescript
+interface UpdateDrawPositionRequest extends Request {
+	name: "updateDrawPosition";
+	drawPos: Vec2;
+}
+```
+
 ## Structures
 Data structures used to describe domain objects.
 
@@ -115,6 +136,16 @@ An integer range that includes the start and excludes the end index.
 interface Range {
 	start: number;
 	end: number;
+}
+```
+
+### ClientInfo
+An aggregrate of information about a client.
+
+```typescript
+interface ClientInfo {
+	id: number;
+	name: string;
 }
 ```
 

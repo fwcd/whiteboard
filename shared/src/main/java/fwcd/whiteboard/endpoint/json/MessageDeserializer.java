@@ -16,11 +16,13 @@ import fwcd.whiteboard.protocol.event.AddItemsEvent;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.event.EventName;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
+import fwcd.whiteboard.protocol.event.UpdateDrawPositionEvent;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
 import fwcd.whiteboard.protocol.request.GetAllItemsRequest;
 import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.request.RequestName;
 import fwcd.whiteboard.protocol.request.SetAllItemsRequest;
+import fwcd.whiteboard.protocol.request.UpdateDrawPositionRequest;
 
 public class MessageDeserializer implements JsonDeserializer<Message> {
 	private final Map<String, Class<? extends Event>> eventClasses = new HashMap<>();
@@ -29,10 +31,12 @@ public class MessageDeserializer implements JsonDeserializer<Message> {
 	public MessageDeserializer() {
 		eventClasses.put(EventName.UPDATE_ALL_ITEMS, UpdateAllItemsEvent.class);
 		eventClasses.put(EventName.ADD_ITEMS, AddItemsEvent.class);
-
+		eventClasses.put(EventName.UPDATE_DRAW_POSITION, UpdateDrawPositionEvent.class);
+		
 		requestClasses.put(RequestName.GET_ALL_ITEMS, GetAllItemsRequest.class);
 		requestClasses.put(RequestName.SET_ALL_ITEMS, SetAllItemsRequest.class);
 		requestClasses.put(RequestName.ADD_ITEMS, AddItemsRequest.class);
+		requestClasses.put(RequestName.UPDATE_DRAW_POSITION, UpdateDrawPositionRequest.class);
 	}
 	
 	@Override

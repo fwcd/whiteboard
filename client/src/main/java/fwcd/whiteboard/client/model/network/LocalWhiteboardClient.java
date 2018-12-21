@@ -14,6 +14,7 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardItemVisitor;
 import fwcd.whiteboard.protocol.event.AddItemsEvent;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
+import fwcd.whiteboard.protocol.event.UpdateDrawPositionEvent;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 /**
@@ -51,12 +52,19 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	}
 	
 	@Override
+	public void updateDrawPosition(UpdateDrawPositionEvent event) {
+		withEvent(event, e -> {
+			// TODO: Display the draw position overlay
+		});
+	}
+	
+	@Override
 	public void otherEvent(Event event) {
 		LOG.info("Received unknown event: {}", event);
 	}
 	
 	private <T extends Event> void withEvent(T event, Consumer<T> handler) {
-		if (event.getRequesterId() != context.getClientId()) {
+		if (event.getRequester().getId() != context.getClientId()) {
 			context.setSilent(true);
 			handler.accept(event);
 			context.setSilent(false);

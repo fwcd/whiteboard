@@ -4,16 +4,17 @@ import fwcd.whiteboard.protocol.Message;
 import fwcd.whiteboard.protocol.MessageCategory;
 import fwcd.whiteboard.protocol.dispatch.MessageDispatcher;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
+import fwcd.whiteboard.protocol.struct.ClientInfo;
 
 public abstract class Event extends Message {
-	private long requesterId;
+	private ClientInfo requester;
 	
 	// Gson constructor
 	protected Event() {}
 	
-	public Event(long requesterId, String type) {
+	public Event(ClientInfo requester, String type) {
 		super(MessageCategory.EVENT, type);
-		this.requesterId = requesterId;
+		this.requester = requester;
 	}
 	
 	@Override
@@ -23,7 +24,7 @@ public abstract class Event extends Message {
 	
 	public abstract void sendTo(WhiteboardClient client);
 	
-	public long getRequesterId() { return requesterId; }
+	public ClientInfo getRequester() { return requester; }
 	
 	@Override
 	public String toString() {
