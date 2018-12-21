@@ -12,6 +12,8 @@ import fwcd.fructose.geometry.Rectangle2D;
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.sketch.model.items.BoardItem;
 import fwcd.sketch.model.items.ColoredRect;
+import fwcd.sketch.model.items.ColoredText;
+import fwcd.sketch.model.items.CompositeItem;
 import fwcd.sketch.model.items.SketchItem;
 import fwcd.whiteboard.client.model.convert.FromProtocolItemConverter;
 import fwcd.whiteboard.client.model.overlay.BoardOverlayModel;
@@ -63,7 +65,11 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	public void updateDrawPosition(UpdateDrawPositionEvent event) {
 		withEvent(event, e -> {
 			SketchItem newItem = e.getDrawPos()
-				.map(pos -> new ColoredRect(new Rectangle2D(converter.vectorOf(pos), 10, 10), Color.BLUE, 1))
+				.map(converter::vectorOf)
+				.map(pos -> new CompositeItem(
+					new ColoredRect(new Rectangle2D(pos, 4, 4), Color.BLUE, 2),
+					new ColoredText(e.getRequester().getName(), Color.BLUE, 2, pos.add(10, 0))
+				))
 				.orElseNull();
 			SketchItem oldItem = overlayItems.put(event.getRequester().getId(), newItem);
 			overlay.replaceItem(oldItem, newItem);

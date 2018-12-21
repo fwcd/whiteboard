@@ -1,8 +1,10 @@
 package fwcd.whiteboard.endpoint;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
@@ -27,6 +29,7 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
+import fwcd.whiteboard.protocol.utils.MessageListener;
 import fwcd.whiteboard.utils.ExceptionHandler;
 
 /**
@@ -39,8 +42,10 @@ public class ProtocolReceiver implements MessageDispatcher {
 			.registerTypeAdapter(Message.class, new MessageDeserializer())
 			.registerTypeAdapter(WhiteboardItem.class, new WhiteboardItemDeserializer()).create();
 	private final InputStream jsonInput;
+	
 	private final Either<WhiteboardClient, WhiteboardServer> receiver;
 	private final List<ExceptionHandler<?>> exceptionHandlers = new ArrayList<>();
+	private final List<MessageListener<?>> messageListeners = new ArrayList<>();
 	private Option<Runnable> onClose = Option.empty();
 	
 	private ProtocolReceiver(InputStream jsonInput, Either<WhiteboardClient, WhiteboardServer> receiver) {
@@ -88,6 +93,10 @@ public class ProtocolReceiver implements MessageDispatcher {
 		exceptionHandlers.removeIf(it -> it.getExceptionType().equals(exceptionType));
 	}
 	
+	public <T extends Message> void addMessageListener(Class<? extends T> messageType, Consumer<? super T> action) {
+		messageListeners.add(new MessageListener<>(messageType, action));
+	}
+	
 	/**
 	 * Adds a close handler that is invoked once the
 	 * receiver has finished running.
@@ -110,20 +119,45 @@ public class ProtocolReceiver implements MessageDispatcher {
 						continueLoop = false;
 					} else {
 						message.dispatch(this);
+						fireMessageListeners(message);
 						LOG.debug(">> In:  {}", message);
 					}
-				} catch (RuntimeException e) {
-					Class<? extends RuntimeException> exceptionType = e.getClass();
-					continueLoop = true;
-					
-					for (ExceptionHandler<?> handler : exceptionHandlers) {
-						if (handler.getExceptionType().equals(exceptionType)) {
-							continueLoop &= handler.run(e);
-						}
+				} catch (UncheckedIOException e) {
+					if (e.getCause() instanceof EOFException) {
+						continueLoop = false;
+						handleException(e);
+					} else {
+						continueLoop = handleException(e);
 					}
+				} catch (RuntimeException e) {
+					continueLoop = handleException(e);
 				}
 			}
 			onClose.ifPresent(Runnable::run);
+		}
+	}
+	
+	private boolean handleException(Throwable e) {
+		Class<? extends Throwable> exceptionType = e.getClass();
+		boolean continueLoop = true;
+		
+		for (ExceptionHandler<?> handler : exceptionHandlers) {
+			if (handler.getExceptionType().equals(exceptionType)) {
+				continueLoop &= handler.run(e);
+			}
+		}
+		
+		return continueLoop;
+	}
+	
+	private void fireMessageListeners(Message message) {
+		if (!messageListeners.isEmpty()) {
+			Class<? extends Message> messageType = message.getClass();
+			for (MessageListener<?> listener : messageListeners) {
+				if (listener.getExceptionType().equals(messageType)) {
+					listener.run(message);
+				}
+			}
 		}
 	}
 	

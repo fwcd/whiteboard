@@ -10,7 +10,9 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
+import fwcd.whiteboard.protocol.request.DisconnectRequest;
 import fwcd.whiteboard.protocol.request.GetAllItemsRequest;
+import fwcd.whiteboard.protocol.request.HelloRequest;
 import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.request.SetAllItemsRequest;
 import fwcd.whiteboard.protocol.request.UpdateDrawPositionRequest;
@@ -62,6 +64,21 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 				consumer.accept(connection.getClientProxy());
 			}
 		}
+	}
+	
+	@Override
+	public void disconnect(DisconnectRequest request) {
+		long removedId = request.getSenderId();
+		model.removeClientInfo(removedId);
+		activeConnections.removeIf(conn -> conn.getClientInfo()
+			.filter(info -> info.getId() == removedId)
+			.isPresent());
+		LOG.info("Disconnected client {}", request.getSenderId());
+	}
+	
+	@Override
+	public void hello(HelloRequest request) {
+		model.addClientInfo(request.getInfo());
 	}
 	
 	@Override

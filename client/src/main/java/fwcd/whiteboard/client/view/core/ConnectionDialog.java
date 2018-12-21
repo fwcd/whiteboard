@@ -1,6 +1,7 @@
 package fwcd.whiteboard.client.view.core;
 
 import java.awt.GridLayout;
+import java.util.Objects;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,13 +15,15 @@ public class ConnectionDialog {
 	
 	private JTextField hostField;
 	private JTextField portField;
+	private JTextField displayNameField;
 	
 	private String host = null;
+	private String displayName = null;
 	private int port = 0;
 	
 	public ConnectionDialog() {
 		component = new JPanel();
-		component.setLayout(new GridLayout(2, 2));
+		component.setLayout(new GridLayout(3, 2));
 		
 		component.add(new JLabel("Host:"));
 		hostField = new HintTextField("localhost");
@@ -29,6 +32,10 @@ public class ConnectionDialog {
 		component.add(new JLabel("Port:"));
 		portField = new JTextField();
 		component.add(portField);
+		
+		component.add(new JLabel("Displayed Name:"));
+		displayNameField = new JTextField("Guest");
+		component.add(displayNameField);
 	}
 	
 	public boolean show() {
@@ -37,17 +44,16 @@ public class ConnectionDialog {
 		if (selectedOption == JOptionPane.OK_OPTION) {
 			host = hostField.getText();
 			port = Integer.parseInt(portField.getText());
+			displayName = displayNameField.getText();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public String getHost() {
-		return host;
-	}
+	public String getHost() { return Objects.requireNonNull(host, "No host present."); }
 
-	public int getPort() {
-		return port;
-	}
+	public int getPort() { return Objects.requireNonNull(port, "No port present."); }
+	
+	public String getDisplayName() { return Objects.requireNonNull(displayName, "No displayName present."); }
 }

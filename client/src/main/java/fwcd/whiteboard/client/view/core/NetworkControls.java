@@ -44,7 +44,7 @@ public class NetworkControls implements View {
 		connectButton.addActionListener((l) -> {
 			try {
 				if (dialog.show()) {
-					connector.connect(dialog.getHost(), dialog.getPort());
+					connector.connect(dialog.getHost(), dialog.getPort(), dialog.getDisplayName());
 				}
 			} catch (IOException | UncheckedIOException e) {
 				JOptionPane.showMessageDialog(null, e.getClass().getSimpleName() + ": " + e.getMessage());

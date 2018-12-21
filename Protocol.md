@@ -104,6 +104,26 @@ interface UpdateDrawPositionRequest extends Request {
 }
 ```
 
+### HelloRequest
+Informs the server about the client's information upon connecting
+to the server.
+
+```typescript
+interface HelloRequest extends Request {
+	name: "hello";
+	info: ClientInfo;
+}
+```
+
+### DisconnectRequest
+Disconnects a client from the server.
+
+```typescript
+interface DisconnectRequest extends Request {
+	name: "disconnect";
+}
+```
+
 ## Structures
 Data structures used to describe domain objects.
 

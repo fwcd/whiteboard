@@ -6,11 +6,17 @@ import fwcd.whiteboard.protocol.struct.Vec2;
 
 public class ClientStateModel {
 	private final long id;
-	private String name = "";
+	private String name;
 	private Option<Vec2> drawPos = Option.empty();
 	
 	public ClientStateModel(long id) {
 		this.id = id;
+		name = "";
+	}
+	
+	public ClientStateModel(ClientInfo info) {
+		id = info.getId();
+		name = info.getName();
 	}
 	
 	public ClientInfo getInfo() { return new ClientInfo(id, name); }

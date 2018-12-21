@@ -18,7 +18,9 @@ import fwcd.whiteboard.protocol.event.EventName;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.event.UpdateDrawPositionEvent;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
+import fwcd.whiteboard.protocol.request.DisconnectRequest;
 import fwcd.whiteboard.protocol.request.GetAllItemsRequest;
+import fwcd.whiteboard.protocol.request.HelloRequest;
 import fwcd.whiteboard.protocol.request.Request;
 import fwcd.whiteboard.protocol.request.RequestName;
 import fwcd.whiteboard.protocol.request.SetAllItemsRequest;
@@ -37,6 +39,8 @@ public class MessageDeserializer implements JsonDeserializer<Message> {
 		requestClasses.put(RequestName.SET_ALL_ITEMS, SetAllItemsRequest.class);
 		requestClasses.put(RequestName.ADD_ITEMS, AddItemsRequest.class);
 		requestClasses.put(RequestName.UPDATE_DRAW_POSITION, UpdateDrawPositionRequest.class);
+		requestClasses.put(RequestName.DISCONNECT, DisconnectRequest.class);
+		requestClasses.put(RequestName.HELLO, HelloRequest.class);
 	}
 	
 	@Override

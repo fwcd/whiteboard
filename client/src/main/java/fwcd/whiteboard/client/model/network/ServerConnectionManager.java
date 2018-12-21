@@ -16,6 +16,9 @@ import fwcd.whiteboard.client.model.overlay.BoardOverlayModel;
 import fwcd.whiteboard.endpoint.ProtocolReceiver;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
+import fwcd.whiteboard.protocol.request.DisconnectRequest;
+import fwcd.whiteboard.protocol.request.HelloRequest;
+import fwcd.whiteboard.protocol.struct.ClientInfo;
 import fwcd.whiteboard.protocol.struct.WhiteboardItem;
 
 /**
@@ -30,6 +33,10 @@ public class ServerConnectionManager {
 	public ServerConnectionManager(SketchBoardModel board, BoardOverlayModel overlay) {
 		client = new LocalWhiteboardClient(board, overlay, context);
 		registerListeners(board);
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			ifConnected(wb -> wb.disconnect(new DisconnectRequest(context.getClientId())));
+			activeConnection.get().ifPresent(ServerConnection::close);
+		}));
 	}
 	
 	private void registerListeners(SketchBoardModel board) {
@@ -52,9 +59,11 @@ public class ServerConnectionManager {
 		return converter.getResult();
 	}
 	
-	public void connect(String host, int port) throws IOException {
+	public void connect(String host, int port, String displayName) throws IOException {
 		Socket socket = new Socket(host, port);
-		activeConnection.set(Option.of(new ServerConnection(socket)));
+		ServerConnection connection = new ServerConnection(socket);
+		connection.getServerProxy().hello(new HelloRequest(context.getClientId(), new ClientInfo(context.getClientId(), displayName)));
+		activeConnection.set(Option.of(connection));
 		
 		ProtocolReceiver receiver = ProtocolReceiver.ofClient(socket.getInputStream(), client);
 		receiver.setOnClose(() -> activeConnection.set(Option.empty()));

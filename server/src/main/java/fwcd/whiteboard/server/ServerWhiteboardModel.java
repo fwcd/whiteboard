@@ -52,6 +52,14 @@ public class ServerWhiteboardModel {
 		return state;
 	}
 	
+	public void addClientInfo(ClientInfo info) {
+		clients.put(info.getId(), new ClientStateModel(info));
+	}
+	
+	public void removeClientInfo(long clientId) {
+		clients.remove(clientId);
+	}
+	
 	public ClientInfo clientInfoOf(long clientId) {
 		if (clients.containsKey(clientId)) {
 			return clients.get(clientId).getInfo();

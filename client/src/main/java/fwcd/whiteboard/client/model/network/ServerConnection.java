@@ -10,7 +10,7 @@ import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 /**
  * An active connection with a server.
  */
-public class ServerConnection {
+public class ServerConnection implements AutoCloseable {
 	private final Socket serverSocket;
 	private final WhiteboardServer serverProxy;
 	
@@ -26,4 +26,13 @@ public class ServerConnection {
 	public Socket getServerSocket() { return serverSocket; }
 	
 	public WhiteboardServer getServerProxy() { return serverProxy; }
+	
+	@Override
+	public void close() {
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
 }
