@@ -13,6 +13,6 @@ repositories {
 dependencies {
 	implementation project(':shared')
 	implementation 'com.github.fwcd:Fructose:b9bbe6c651dd81eff1fe5c84bbb0fdd6f78ff661'
-	implementation 'com.github.fwcd:Sketch:c4df09e7dc2c7d8dcf1fe62b0855d161fd6005bb'
+	implementation 'com.github.fwcd:Sketch:f4247119d3805ae3237b75b2377e9adafee7328e'
 	testImplementation 'junit:junit:4.12'
 }

@@ -24,7 +24,7 @@ interface Event extends Message {
 ```
 
 ### UpdateAllItemsEvent
-An event that clears and replaces all items on the client whiteboard. This ensures that the client representation matches the actual whiteboard.
+Clears and replaces all items on the client whiteboard. This ensures that the client representation matches the actual whiteboard.
 
 ```typescript
 interface UpdateAllItemsEvent extends Event {
@@ -34,13 +34,32 @@ interface UpdateAllItemsEvent extends Event {
 ```
 
 ### AddItemsEvent
-An event that adds an item to the client whiteboard. The client should check using the `totalItemCount` whether it notices any discrepancies with its internal whiteboard representation and if so, request all items.
+Adds an item to the client whiteboard. The client should check using the `totalItemCount` whether it notices any discrepancies with its internal whiteboard representation and if so, request all items.
 
 ```typescript
 interface AddItemsEvent extends Event {
 	name: "addItems";
 	addedItems: WhiteboardItem[];
 	totalItemCount: number;
+}
+```
+
+### AddItemPartsEvent
+Incrementally adds parts of an unfinished item to the client whiteboard. The client thus should maintain and update a map of all other clients together with their (unfinished) items.
+
+```typescript
+interface AddItemPartsEvent extends Event {
+	name: "addItemParts";
+	addedParts: WhiteboardItem[];
+}
+```
+
+### ComposePartsEvent
+Indicates to the client that the current (unfinished) item by the requester has been completed.
+
+```typescript
+interface ComposePartsEvent extends Event {
+	name: "composeParts";
 }
 ```
 
@@ -91,6 +110,25 @@ Requests the server to add items to the actual whiteboard.
 interface AddItemsRequest extends Request {
 	name: "addItems";
 	addedItems: WhiteboardItem[];
+}
+```
+
+### AddItemPartsRequest
+Notifies the server (and thus other clients) about parts of an incrementally built (unfinished) item.
+
+```typescript
+interface AddItemPartsRequest extends Request {
+	name: "addItemParts";
+	addedParts: WhiteboardItem[];
+}
+```
+
+### ComposePartsRequest
+Indicates to the server (and thus other clients) that the current (unfinished) item has been completed.
+
+```typescript
+interface ComposePartsRequest extends Request {
+	name: "composeParts";
 }
 ```
 

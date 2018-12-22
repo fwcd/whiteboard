@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 
 import fwcd.fructose.ListenerList;
-import fwcd.sketch.model.items.SketchItem;
+import fwcd.sketch.model.items.BoardItemStack;
 import fwcd.sketch.view.canvas.ItemRenderer;
 import fwcd.sketch.view.utils.ListenableRenderable;
 import fwcd.whiteboard.client.model.overlay.BoardOverlayModel;
@@ -21,7 +21,7 @@ public class BoardOverlayView implements ListenableRenderable {
 	@Override
 	public void render(Graphics2D g2d, Dimension canvasSize) {
 		synchronized (model) {
-			for (SketchItem item : model.getItems()) {
+			for (BoardItemStack item : model.getItems()) {
 				item.accept(new ItemRenderer(g2d));
 			}
 		}

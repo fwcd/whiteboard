@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import fwcd.fructose.geometry.Rectangle2D;
 import fwcd.sketch.model.SketchBoardModel;
-import fwcd.sketch.model.items.BoardItem;
+import fwcd.sketch.model.items.BoardItemStack;
 import fwcd.sketch.model.items.ColoredRect;
 import fwcd.sketch.model.items.ColoredText;
 import fwcd.sketch.model.items.CompositeItem;
@@ -18,7 +18,9 @@ import fwcd.sketch.model.items.SketchItem;
 import fwcd.whiteboard.client.model.convert.FromProtocolItemConverter;
 import fwcd.whiteboard.client.model.overlay.BoardOverlayModel;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
+import fwcd.whiteboard.protocol.event.AddItemPartsEvent;
 import fwcd.whiteboard.protocol.event.AddItemsEvent;
+import fwcd.whiteboard.protocol.event.ComposePartsEvent;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.event.UpdateDrawPositionEvent;
@@ -33,7 +35,7 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	private final ClientNetworkContext context;
 	private final SketchBoardModel board;
 	private final BoardOverlayModel overlay;
-	private final Map<Long, SketchItem> overlayItems = new HashMap<>();
+	private final Map<Long, BoardItemStack> overlayItems = new HashMap<>();
 	private final FromProtocolItemConverter converter = new FromProtocolItemConverter();
 	
 	public LocalWhiteboardClient(SketchBoardModel board, BoardOverlayModel overlay, ClientNetworkContext context) {
@@ -46,7 +48,7 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	public void addItems(AddItemsEvent event) {
 		withEvent(event, e -> {
 			for (WhiteboardItem item : e.getAddedItems()) {
-				board.addItem(new BoardItem(item.accept(converter)));
+				board.addItem(new BoardItemStack(item.accept(converter)));
 			}
 		});
 	}
@@ -56,7 +58,7 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 		withEvent(event, e -> {
 			board.clear();
 			for (WhiteboardItem item : e.getItems()) {
-				board.addItem(new BoardItem(item.accept(converter)));
+				board.addItem(new BoardItemStack(item.accept(converter)));
 			}
 		});
 	}
@@ -71,14 +73,34 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 					new ColoredText(e.getRequester().getName(), Color.BLUE, 2, pos.add(10, 0))
 				))
 				.orElseNull();
-			SketchItem oldItem = overlayItems.put(event.getRequester().getId(), newItem);
-			overlay.replaceItem(oldItem, newItem);
+			setOverlayItem(event.getRequester().getId(), newItem);
 		});
+	}
+	
+	@Override
+	public void addParts(AddItemPartsEvent event) {
+		// TODO
+	}
+	
+	@Override
+	public void composeParts(ComposePartsEvent event) {
+		// TODO
 	}
 	
 	@Override
 	public void otherEvent(Event event) {
 		LOG.info("Received unknown event: {}", event);
+	}
+	
+	private void setOverlayItem(long clientId, SketchItem newItem) {
+		BoardItemStack boardItem = overlayItems.get(clientId);
+		if (boardItem == null) {
+			boardItem = new BoardItemStack(newItem);
+			overlay.addItem(boardItem);
+			overlayItems.put(clientId, boardItem);
+		} else {
+			boardItem.set(newItem);
+		}
 	}
 	
 	private <T extends Event> void withEvent(T event, Consumer<T> handler) {
