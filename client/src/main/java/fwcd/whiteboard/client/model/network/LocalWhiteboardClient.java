@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwcd.fructose.StreamUtils;
 import fwcd.fructose.geometry.Rectangle2D;
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.sketch.model.items.BoardItemStack;
@@ -82,12 +84,19 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	
 	@Override
 	public void addParts(AddItemPartsEvent event) {
-		// TODO
+		for (WhiteboardItem part : event.getAddedParts()) {
+			clientOverlaysFor(event.getRequester().getId())
+				.getUnfinishedItem()
+				.push(part.accept(converter));
+		}
 	}
 	
 	@Override
 	public void composeParts(ComposePartsEvent event) {
-		// TODO
+		BoardItemStack stack = clientOverlaysFor(event.getRequester().getId()).getUnfinishedItem();
+		SketchItem composite = new CompositeItem(StreamUtils.stream(stack.getStack()).collect(Collectors.toList()));
+		board.addItem(new BoardItemStack(composite));
+		stack.clear();
 	}
 	
 	@Override
