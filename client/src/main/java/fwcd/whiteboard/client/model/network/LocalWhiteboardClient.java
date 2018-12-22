@@ -23,7 +23,7 @@ import fwcd.whiteboard.client.model.overlay.ClientOverlays;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.event.AddItemPartsEvent;
 import fwcd.whiteboard.protocol.event.AddItemsEvent;
-import fwcd.whiteboard.protocol.event.ComposePartsEvent;
+import fwcd.whiteboard.protocol.event.DisposePartsEvent;
 import fwcd.whiteboard.protocol.event.Event;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.event.UpdateDrawPositionEvent;
@@ -92,7 +92,7 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	}
 	
 	@Override
-	public void composeParts(ComposePartsEvent event) {
+	public void disposeParts(DisposePartsEvent event) {
 		BoardItemStack stack = clientOverlaysFor(event.getRequester().getId()).getUnfinishedItem();
 		SketchItem composite = new CompositeItem(StreamUtils.stream(stack.getStack()).collect(Collectors.toList()));
 		board.addItem(new BoardItemStack(composite));

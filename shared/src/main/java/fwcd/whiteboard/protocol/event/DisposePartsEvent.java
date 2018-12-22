@@ -3,20 +3,20 @@ package fwcd.whiteboard.protocol.event;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.struct.ClientInfo;
 
-public class ComposePartsEvent extends Event {
-	protected ComposePartsEvent() {}
+public class DisposePartsEvent extends Event {
+	protected DisposePartsEvent() {}
 	
-	public ComposePartsEvent(ClientInfo requester) {
-		super(requester, EventName.COMPOSE_PARTS);
+	public DisposePartsEvent(ClientInfo requester) {
+		super(requester, EventName.DISPOSE_PARTS);
 	}
 	
 	@Override
 	public void sendTo(WhiteboardClient client) {
-		client.composeParts(this);
+		client.disposeParts(this);
 	}
 	
 	@Override
 	public String toString() {
-		return "ComposePartsEvent";
+		return "DisposePartsEvent";
 	}
 }

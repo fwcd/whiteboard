@@ -5,7 +5,7 @@ public final class EventName {
 	public static final String UPDATE_DRAW_POSITION = "updateDrawPosition";
 	public static final String ADD_ITEMS = "addItems";
 	public static final String ADD_ITEM_PARTS = "addItemParts";
-	public static final String COMPOSE_PARTS = "composeParts";
+	public static final String DISPOSE_PARTS = "disposeParts";
 	
 	private EventName() {}
 }

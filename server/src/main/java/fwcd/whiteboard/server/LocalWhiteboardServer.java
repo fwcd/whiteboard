@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
 import fwcd.whiteboard.protocol.event.AddItemPartsEvent;
-import fwcd.whiteboard.protocol.event.ComposePartsEvent;
+import fwcd.whiteboard.protocol.event.DisposePartsEvent;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.request.AddItemPartsRequest;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
-import fwcd.whiteboard.protocol.request.ComposePartsRequest;
+import fwcd.whiteboard.protocol.request.DisposePartsRequest;
 import fwcd.whiteboard.protocol.request.DisconnectRequest;
 import fwcd.whiteboard.protocol.request.GetAllItemsRequest;
 import fwcd.whiteboard.protocol.request.HelloRequest;
@@ -92,9 +92,9 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 	}
 	
 	@Override
-	public void composeParts(ComposePartsRequest request) {
-		ComposePartsEvent event = new ComposePartsEvent(model.clientInfoOf(request.getSenderId()));
-		forEachClient(c -> c.composeParts(event));
+	public void disposeParts(DisposePartsRequest request) {
+		DisposePartsEvent event = new DisposePartsEvent(model.clientInfoOf(request.getSenderId()));
+		forEachClient(c -> c.disposeParts(event));
 	}
 	
 	@Override

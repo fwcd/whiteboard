@@ -54,12 +54,12 @@ interface AddItemPartsEvent extends Event {
 }
 ```
 
-### ComposePartsEvent
+### DisposePartsEvent
 Indicates to the client that the current (unfinished) item by the requester has been completed.
 
 ```typescript
-interface ComposePartsEvent extends Event {
-	name: "composeParts";
+interface DisposePartsEvent extends Event {
+	name: "disposeParts";
 }
 ```
 
@@ -123,12 +123,12 @@ interface AddItemPartsRequest extends Request {
 }
 ```
 
-### ComposePartsRequest
+### DisposePartsRequest
 Indicates to the server (and thus other clients) that the current (unfinished) item has been completed.
 
 ```typescript
-interface ComposePartsRequest extends Request {
-	name: "composeParts";
+interface DisposePartsRequest extends Request {
+	name: "disposeParts";
 }
 ```
 
