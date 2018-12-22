@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardServer;
+import fwcd.whiteboard.protocol.event.AddItemPartsEvent;
+import fwcd.whiteboard.protocol.event.ComposePartsEvent;
 import fwcd.whiteboard.protocol.event.UpdateAllItemsEvent;
 import fwcd.whiteboard.protocol.request.AddItemPartsRequest;
 import fwcd.whiteboard.protocol.request.AddItemsRequest;
@@ -85,12 +87,14 @@ public class LocalWhiteboardServer implements WhiteboardServer {
 	
 	@Override
 	public void addParts(AddItemPartsRequest request) {
-		// TODO
+		AddItemPartsEvent event = new AddItemPartsEvent(model.clientInfoOf(request.getSenderId()), request.getAddedParts());
+		forEachClient(c -> c.addParts(event));
 	}
 	
 	@Override
 	public void composeParts(ComposePartsRequest request) {
-		// TODO
+		ComposePartsEvent event = new ComposePartsEvent(model.clientInfoOf(request.getSenderId()));
+		forEachClient(c -> c.composeParts(event));
 	}
 	
 	@Override
