@@ -17,7 +17,7 @@ public class WhiteboardFrame {
 		frame.add(app.getComponent(), BorderLayout.CENTER);
 		
 		MenuBarView menuBar = new MenuBarView(app);
-		frame.add(menuBar.getComponent(), BorderLayout.NORTH);
+		frame.setJMenuBar(menuBar.getComponent());
 		
 		frame.setVisible(true);
 	}

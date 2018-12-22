@@ -1,7 +1,5 @@
 package fwcd.whiteboard.client;
 
-import javax.swing.UIManager;
-
 import fwcd.whiteboard.client.view.WhiteboardFrame;
 
 public class WhiteboardClientMain {
@@ -10,12 +8,6 @@ public class WhiteboardClientMain {
 	public static void main(String[] args) {
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Whiteboard");
-
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 		int width = 900;
 		int height = 600;

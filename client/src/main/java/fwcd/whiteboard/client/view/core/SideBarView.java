@@ -54,7 +54,7 @@ public class SideBarView implements View {
 		component.setFloatable(false);
 		component.setLayout(new BorderLayout());
 		component.setPreferredSize(horizontal ? new Dimension(200, 40) : new Dimension(40, 200));
-		component.setBackground(Color.DARK_GRAY);
+		component.setBackground(softerColor(Color.WHITE));
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
@@ -103,15 +103,19 @@ public class SideBarView implements View {
 		SelectedButtonPanel bgColorsPanel = getButtonPanel(horizontal);
 		
 		for (Color color : bgColors) {
-			Renderable circle = (g2d, canvasSize) -> {
+			Renderable rect = (g2d, canvasSize) -> {
 				g2d.setColor(color);
 				g2d.fillRect(0, 0, (int) canvasSize.getWidth(), (int) canvasSize.getHeight());
 				g2d.setColor(Color.LIGHT_GRAY);
 				g2d.drawRect(0, 0, (int) canvasSize.getWidth() - 1, (int) canvasSize.getHeight() - 1);
 			};
 			
-			JButton button = new DrawGraphicsButton(new Dimension(24, 24), circle);
-			bgColorsPanel.add(button, () -> drawBoard.getComponent().setBackground(color));
+			JButton button = new DrawGraphicsButton(new Dimension(24, 24), rect);
+			bgColorsPanel.add(button, () -> {
+				component.setBackground(softerColor(color));
+				drawBoard.getModel().getBackground().set(color);
+				drawBoard.repaint();
+			});
 		}
 
 		buttonPanel.add(bgColorsPanel.getComponent());
@@ -147,6 +151,14 @@ public class SideBarView implements View {
 		otherButtonsPane.add(helpButton);
 		
 		component.add(otherButtonsPane, horizontal ? BorderLayout.EAST : BorderLayout.SOUTH);
+	}
+	
+	private Color softerColor(Color color) {
+		return new Color(softer(color.getRed()), softer(color.getGreen()), softer(color.getBlue()), color.getAlpha());
+	}
+	
+	private int softer(int colorComponent) {
+		return colorComponent + ((128 - colorComponent) / 2);
 	}
 
 	private SelectedButtonPanel getButtonPanel(boolean horizontal) {

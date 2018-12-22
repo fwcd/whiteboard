@@ -37,6 +37,7 @@ public class WhiteboardView implements View {
 		component.setLayout(new BorderLayout());
 		
 		drawBoard = new SketchBoardView(model.getBoard());
+		
 		BoardOverlayView overlay = new BoardOverlayView(model.getOverlay());
 		drawBoard.pushOverlay(overlay);
 		overlay.listenForChanges(drawBoard.getComponent()::repaint);

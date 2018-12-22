@@ -9,7 +9,6 @@ import java.io.Writer;
 import java.nio.file.Files;
 
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -79,7 +78,7 @@ public class MenuBarView implements View {
 	}
 	
 	@Override
-	public JComponent getComponent() {
+	public JMenuBar getComponent() {
 		return component;
 	}
 	
