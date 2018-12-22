@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwcd.fructose.StreamUtils;
 import fwcd.fructose.geometry.Rectangle2D;
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.sketch.model.items.BoardItemStack;

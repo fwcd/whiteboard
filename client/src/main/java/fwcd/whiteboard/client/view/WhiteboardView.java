@@ -3,19 +3,25 @@ package fwcd.whiteboard.client.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import fwcd.fructose.Option;
+import fwcd.fructose.function.Subscription;
 import fwcd.fructose.swing.MouseHandler;
 import fwcd.fructose.swing.View;
 import fwcd.sketch.model.BrushProperties;
+import fwcd.sketch.model.items.SketchItem;
 import fwcd.sketch.view.canvas.SketchBoardView;
-import fwcd.sketch.view.tools.SketchTool;
 import fwcd.whiteboard.client.model.WhiteboardModel;
 import fwcd.whiteboard.client.model.network.ServerConnectionManager;
 import fwcd.whiteboard.client.view.core.SideBarView;
 import fwcd.whiteboard.client.view.overlay.BoardOverlayView;
+import fwcd.whiteboard.protocol.request.AddItemPartsRequest;
 import fwcd.whiteboard.protocol.request.UpdateDrawPositionRequest;
 import fwcd.whiteboard.protocol.struct.Vec2;
 
@@ -25,6 +31,8 @@ public class WhiteboardView implements View {
 	 
 	private final SketchBoardView drawBoard;
 	private final SideBarView sideBar;
+	
+	private Option<Subscription> partSubscription = Option.empty();
 	
 	/**
 	 * Creates a new local Whiteboard instance.
@@ -47,6 +55,7 @@ public class WhiteboardView implements View {
 		component.add(sideBar.getComponent(), BorderLayout.WEST);
 		
 		registerMouseListeners();
+		registerToolListeners();
 		
 		component.setVisible(true);
 	}
@@ -66,17 +75,19 @@ public class WhiteboardView implements View {
 		}.connect(drawBoard.getComponent());
 	}
 	
+	private void registerToolListeners() {
+		drawBoard.getSelectedTool().listenAndFire(tool -> {
+			ServerConnectionManager manager = model.getConnectionManager();
+			Consumer<? super SketchItem> listener = part -> manager
+				.ifConnected(wb -> wb.addParts(new AddItemPartsRequest(manager.getClientId(), manager.toProtocolItem(part).stream().collect(Collectors.toList()))));
+			
+			partSubscription.ifPresent(Subscription::unsubscribe);
+			partSubscription = tool.subscribeToAddedParts(listener);
+		});
+	}
+	
 	public SketchBoardView getDrawBoard() {
 		return drawBoard;
-	}
-	
-	public void setSelectedTool(SketchTool tool) {
-		drawBoard.selectTool(tool);
-		component.repaint();
-	}
-	
-	public SketchTool getSelectedTool() {
-		return drawBoard.getSelectedTool();
 	}
 	
 	@Override

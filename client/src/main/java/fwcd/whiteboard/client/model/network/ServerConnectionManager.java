@@ -53,7 +53,7 @@ public class ServerConnectionManager {
 		});
 	}
 	
-	private Option<WhiteboardItem> toProtocolItem(SketchItem item) {
+	public Option<WhiteboardItem> toProtocolItem(SketchItem item) {
 		ToProtocolItemConverter converter = new ToProtocolItemConverter();
 		item.accept(converter);
 		return converter.getResult();

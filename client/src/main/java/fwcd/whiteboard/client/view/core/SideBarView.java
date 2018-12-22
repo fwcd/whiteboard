@@ -72,7 +72,7 @@ public class SideBarView implements View {
 			SketchTool tool = enumTool.get();
 			JButton button = new JButton();
 			button.setIcon(tool.getIcon());
-			toolsPanel.add(button, () -> drawBoard.selectTool(tool));
+			toolsPanel.add(button, () -> drawBoard.getSelectedTool().set(tool));
 			
 			if (enumTool == CommonSketchTool.BRUSH) {
 				toolsPanel.select(button);
