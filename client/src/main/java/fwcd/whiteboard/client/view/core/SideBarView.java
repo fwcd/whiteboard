@@ -24,6 +24,7 @@ import fwcd.sketch.view.canvas.SketchBoardView;
 import fwcd.sketch.view.tools.CommonSketchTool;
 import fwcd.sketch.view.tools.SketchTool;
 import fwcd.whiteboard.client.model.WhiteboardModel;
+import fwcd.whiteboard.client.view.utils.ColorUtils;
 
 public class SideBarView implements View {
 	private static final Icon HELP_ICON = new ResourceImage("/helpIcon.png").getAsIcon();
@@ -55,9 +56,9 @@ public class SideBarView implements View {
 		component.setFloatable(false);
 		component.setLayout(new BorderLayout());
 		component.setPreferredSize(horizontal ? new Dimension(200, 40) : new Dimension(40, 200));
-		component.setBackground(softerColor(Color.WHITE));
 		component.setMargin(new Insets(0, 0, 0, 0));
 		component.setBorder(new EmptyBorder(0, 0, 0, 0));
+		drawBoard.getModel().getBackground().listenAndFire(it -> component.setBackground(ColorUtils.softer(it)));
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
@@ -115,7 +116,6 @@ public class SideBarView implements View {
 			
 			JButton button = new DrawGraphicsButton(new Dimension(24, 24), rect);
 			bgColorsPanel.add(button, () -> {
-				component.setBackground(softerColor(color));
 				drawBoard.getModel().getBackground().set(color);
 				drawBoard.repaint();
 			});
@@ -154,14 +154,6 @@ public class SideBarView implements View {
 		otherButtonsPane.add(helpButton);
 		
 		component.add(otherButtonsPane, horizontal ? BorderLayout.EAST : BorderLayout.SOUTH);
-	}
-	
-	private Color softerColor(Color color) {
-		return new Color(softer(color.getRed()), softer(color.getGreen()), softer(color.getBlue()), color.getAlpha());
-	}
-	
-	private int softer(int colorComponent) {
-		return colorComponent + ((128 - colorComponent) / 2);
 	}
 
 	private SelectedButtonPanel getButtonPanel(boolean horizontal) {

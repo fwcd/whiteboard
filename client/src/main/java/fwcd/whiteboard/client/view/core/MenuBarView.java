@@ -18,17 +18,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import fwcd.fructose.Observable;
+import fwcd.fructose.ReadOnlyObservable;
 import fwcd.fructose.swing.View;
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.whiteboard.client.view.WhiteboardView;
 
 public class MenuBarView implements View {
-	private static final Color BG_COLOR = Color.DARK_GRAY;
-	private static final Color FG_COLOR = Color.WHITE;
 	private final JMenuBar component;
 	private final JFileChooser fileChooser = new JFileChooser();
+	private final ReadOnlyObservable<Color> bgColor;
+	private final ReadOnlyObservable<Color> fgColor;
 
 	public MenuBarView(WhiteboardView app) {
+		bgColor = app.getDrawBoard().getModel().getBackground();
+		fgColor = bgColor.mapStrongly(it -> new Color(255 - it.getRed(), 255 - it.getGreen(), 255 - it.getBlue()));
+		
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Whiteboard File (.wb)", "wb"));
 
 		SketchBoardModel drawBoardModel = app.getDrawBoard().getModel();
@@ -48,21 +52,21 @@ public class MenuBarView implements View {
 		editMenu.add(newToggleItem("Toggle Grid", drawBoardModel.getShowGrid()));
 		component.add(editMenu);
 		
-		component.setBackground(BG_COLOR);
+		bgColor.listenAndFire(component::setBackground);
 	}
 	
 	private JMenuItem newItem(String title, Runnable onClick) {
 		JMenuItem item = new JMenuItem(title);
 		item.addActionListener((l) -> onClick.run());
-		item.setBackground(BG_COLOR);
-		item.setForeground(FG_COLOR);
+		bgColor.listenAndFire(item::setBackground);
+		fgColor.listenAndFire(item::setForeground);
 		return item;
 	}
 	
 	private JCheckBoxMenuItem newToggleItem(String title, Observable<Boolean> property) {
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(title);
-		item.setBackground(BG_COLOR);
-		item.setForeground(FG_COLOR);
+		bgColor.listenAndFire(item::setBackground);
+		fgColor.listenAndFire(item::setForeground);
 		
 		item.addActionListener(l -> property.set(item.isSelected()));
 		property.listen(item::setSelected);
@@ -72,8 +76,8 @@ public class MenuBarView implements View {
 	
 	private JMenu newMenu(String title) {
 		JMenu menu = new JMenu(title);
-		menu.setBackground(BG_COLOR);
-		menu.setForeground(FG_COLOR);
+		bgColor.listenAndFire(menu::setBackground);
+		fgColor.listenAndFire(menu::setForeground);
 		return menu;
 	}
 	

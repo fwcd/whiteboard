@@ -17,6 +17,7 @@ import fwcd.sketch.model.items.CompositeItem;
 import fwcd.sketch.model.items.SketchItem;
 import fwcd.whiteboard.client.model.convert.FromProtocolItemConverter;
 import fwcd.whiteboard.client.model.overlay.BoardOverlayModel;
+import fwcd.whiteboard.client.model.overlay.ClientOverlays;
 import fwcd.whiteboard.protocol.dispatch.WhiteboardClient;
 import fwcd.whiteboard.protocol.event.AddItemPartsEvent;
 import fwcd.whiteboard.protocol.event.AddItemsEvent;
@@ -34,13 +35,13 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	private static final Logger LOG = LoggerFactory.getLogger(LocalWhiteboardClient.class);
 	private final ClientNetworkContext context;
 	private final SketchBoardModel board;
-	private final BoardOverlayModel overlay;
-	private final Map<Long, BoardItemStack> overlayItems = new HashMap<>();
+	private final BoardOverlayModel overlayModel;
+	private final Map<Long, ClientOverlays> clientOverlays = new HashMap<>();
 	private final FromProtocolItemConverter converter = new FromProtocolItemConverter();
 	
 	public LocalWhiteboardClient(SketchBoardModel board, BoardOverlayModel overlay, ClientNetworkContext context) {
 		this.board = board;
-		this.overlay = overlay;
+		this.overlayModel = overlay;
 		this.context = context;
 	}
 	
@@ -73,7 +74,9 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 					new ColoredText(e.getRequester().getName(), Color.BLUE, 2, pos.add(10, 0))
 				))
 				.orElseNull();
-			setOverlayItem(event.getRequester().getId(), newItem);
+			clientOverlaysFor(event.getRequester().getId())
+				.getDrawPosition()
+				.set(newItem);
 		});
 	}
 	
@@ -92,15 +95,14 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 		LOG.info("Received unknown event: {}", event);
 	}
 	
-	private void setOverlayItem(long clientId, SketchItem newItem) {
-		BoardItemStack boardItem = overlayItems.get(clientId);
-		if (boardItem == null) {
-			boardItem = new BoardItemStack(newItem);
-			overlay.addItem(boardItem);
-			overlayItems.put(clientId, boardItem);
-		} else {
-			boardItem.set(newItem);
+	private ClientOverlays clientOverlaysFor(long clientId) {
+		ClientOverlays cs = clientOverlays.get(clientId);
+		if (cs == null) {
+			cs = new ClientOverlays();
+			cs.addTo(overlayModel);
+			clientOverlays.put(clientId, cs);
 		}
+		return cs;
 	}
 	
 	private <T extends Event> void withEvent(T event, Consumer<T> handler) {
