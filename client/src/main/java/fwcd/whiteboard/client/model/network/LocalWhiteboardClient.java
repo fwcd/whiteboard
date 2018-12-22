@@ -93,10 +93,9 @@ public class LocalWhiteboardClient implements WhiteboardClient {
 	
 	@Override
 	public void disposeParts(DisposePartsEvent event) {
-		BoardItemStack stack = clientOverlaysFor(event.getRequester().getId()).getUnfinishedItem();
-		SketchItem composite = new CompositeItem(StreamUtils.stream(stack.getStack()).collect(Collectors.toList()));
-		board.addItem(new BoardItemStack(composite));
-		stack.clear();
+		clientOverlaysFor(event.getRequester().getId())
+			.getUnfinishedItem()
+			.clear();
 	}
 	
 	@Override
