@@ -3,6 +3,7 @@ package fwcd.whiteboard.client.view.core;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -55,6 +56,8 @@ public class SideBarView implements View {
 		component.setLayout(new BorderLayout());
 		component.setPreferredSize(horizontal ? new Dimension(200, 40) : new Dimension(40, 200));
 		component.setBackground(softerColor(Color.WHITE));
+		component.setMargin(new Insets(0, 0, 0, 0));
+		component.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
