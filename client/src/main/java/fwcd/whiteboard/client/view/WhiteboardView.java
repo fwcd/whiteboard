@@ -3,7 +3,6 @@ package fwcd.whiteboard.client.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -22,6 +21,7 @@ import fwcd.whiteboard.client.model.network.ServerConnectionManager;
 import fwcd.whiteboard.client.view.core.SideBarView;
 import fwcd.whiteboard.client.view.overlay.BoardOverlayView;
 import fwcd.whiteboard.protocol.request.AddItemPartsRequest;
+import fwcd.whiteboard.protocol.request.DisposePartsRequest;
 import fwcd.whiteboard.protocol.request.UpdateDrawPositionRequest;
 import fwcd.whiteboard.protocol.struct.Vec2;
 
@@ -32,7 +32,8 @@ public class WhiteboardView implements View {
 	private final SketchBoardView drawBoard;
 	private final SideBarView sideBar;
 	
-	private Option<Subscription> partSubscription = Option.empty();
+	private Option<Subscription> partToolSubscription = Option.empty();
+	private Option<Subscription> completionToolSubscription = Option.empty();
 	
 	/**
 	 * Creates a new local Whiteboard instance.
@@ -78,11 +79,16 @@ public class WhiteboardView implements View {
 	private void registerToolListeners() {
 		drawBoard.getSelectedTool().listenAndFire(tool -> {
 			ServerConnectionManager manager = model.getConnectionManager();
-			Consumer<? super SketchItem> listener = part -> manager
+			Consumer<? super SketchItem> partListener = part -> manager
 				.ifConnected(wb -> wb.addParts(new AddItemPartsRequest(manager.getClientId(), manager.toProtocolItem(part).stream().collect(Collectors.toList()))));
+			Consumer<? super SketchItem> completionListener = part -> manager
+				.ifConnected(wb -> wb.disposeParts(new DisposePartsRequest(manager.getClientId())));
 			
-			partSubscription.ifPresent(Subscription::unsubscribe);
-			partSubscription = tool.subscribeToAddedParts(listener);
+			completionToolSubscription.ifPresent(Subscription::unsubscribe);
+			completionToolSubscription = tool.subscribeToCompletions(completionListener);
+			
+			partToolSubscription.ifPresent(Subscription::unsubscribe);
+			partToolSubscription = tool.subscribeToAddedParts(partListener);
 		});
 	}
 	
