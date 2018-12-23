@@ -1,5 +1,5 @@
 # Whiteboard
-2D drawing application based on [Sketch](https://github.com/fwcd/Sketch).
+2D drawing application based on [Sketch](https://github.com/fwcd/Sketch) featuring real-time collaborative editing.
 
 ![Screenshot](screenshot.png)
 
