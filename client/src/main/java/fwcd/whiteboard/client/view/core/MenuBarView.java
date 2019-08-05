@@ -19,11 +19,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import fwcd.fructose.Observable;
 import fwcd.fructose.ReadOnlyObservable;
-import fwcd.fructose.swing.View;
+import fwcd.fructose.swing.Viewable;
 import fwcd.sketch.model.SketchBoardModel;
 import fwcd.whiteboard.client.view.WhiteboardView;
 
-public class MenuBarView implements View {
+public class MenuBarView implements Viewable {
 	private final JMenuBar component;
 	private final JFileChooser fileChooser = new JFileChooser();
 	private final ReadOnlyObservable<Color> bgColor;

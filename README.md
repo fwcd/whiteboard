@@ -4,16 +4,16 @@
 ![Screenshot](screenshot.png)
 
 ## Running the client
-* `./gradlew client:run`
+* `./gradlew :client:run`
 
 ## Running the server
-* `./gradlew server:run`
+* `./gradlew :server:run`
 
 ## Running the test client
-* `./gradlew testclient:run --console=plain`
+* `./gradlew :testclient:run --console=plain`
 
 ## Extending the Protocol
-The protocol is defined through [a specification](Protocol.md) and has a default Java implementation. To create additional events and requests, both need to be updated:
+The protocol is defined by [a specification](Protocol.md) and has a default Java implementation. To create additional events and requests, both need to be updated:
 
 * Add the new declaration to [Protocol.md](Protocol.md)
 * Navigate to the `shared` module

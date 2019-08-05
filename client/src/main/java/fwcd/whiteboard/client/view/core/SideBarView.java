@@ -19,14 +19,14 @@ import fwcd.fructose.swing.RangedSlider;
 import fwcd.fructose.swing.Renderable;
 import fwcd.fructose.swing.ResourceImage;
 import fwcd.fructose.swing.SelectedButtonPanel;
-import fwcd.fructose.swing.View;
+import fwcd.fructose.swing.Viewable;
 import fwcd.sketch.view.canvas.SketchBoardView;
 import fwcd.sketch.view.tools.CommonSketchTool;
 import fwcd.sketch.view.tools.SketchTool;
 import fwcd.whiteboard.client.model.WhiteboardModel;
 import fwcd.whiteboard.client.view.utils.ColorUtils;
 
-public class SideBarView implements View {
+public class SideBarView implements Viewable {
 	private static final Icon HELP_ICON = new ResourceImage("/helpIcon.png").getAsIcon();
 	private final Color highlightColor = Color.GRAY;
 	

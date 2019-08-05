@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import fwcd.fructose.Option;
 import fwcd.fructose.function.Subscription;
 import fwcd.fructose.swing.MouseHandler;
-import fwcd.fructose.swing.View;
+import fwcd.fructose.swing.Viewable;
 import fwcd.sketch.model.BrushProperties;
 import fwcd.sketch.model.items.SketchItem;
 import fwcd.sketch.view.canvas.SketchBoardView;
@@ -25,7 +25,7 @@ import fwcd.whiteboard.protocol.request.DisposePartsRequest;
 import fwcd.whiteboard.protocol.request.UpdateDrawPositionRequest;
 import fwcd.whiteboard.protocol.struct.Vec2;
 
-public class WhiteboardView implements View {
+public class WhiteboardView implements Viewable {
 	private final WhiteboardModel model = new WhiteboardModel();
 	private final JComponent component;
 	 

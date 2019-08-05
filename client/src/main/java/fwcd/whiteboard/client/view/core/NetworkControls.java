@@ -13,11 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import fwcd.fructose.swing.ResourceImage;
-import fwcd.fructose.swing.View;
+import fwcd.fructose.swing.Viewable;
 import fwcd.whiteboard.client.model.network.ServerConnectionManager;
 import fwcd.whiteboard.client.view.utils.BoolIndicatorLight;
 
-public class NetworkControls implements View {
+public class NetworkControls implements Viewable {
 	private static final Icon ICON = new ResourceImage("/networkIcon.png").getAsIcon();
 	private JPanel component;
 

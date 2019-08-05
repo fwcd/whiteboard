@@ -8,9 +8,9 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import fwcd.fructose.swing.RenderPanel;
-import fwcd.fructose.swing.View;
+import fwcd.fructose.swing.Viewable;
 
-public class BoolIndicatorLight implements View {
+public class BoolIndicatorLight implements Viewable {
 	private JPanel component;
 
 	private boolean enabled = false;
